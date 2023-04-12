@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.user')
 @section('content')
     <!-- ======= Featured Services Section ======= -->
     <section id="featured-services" class="featured-services">
