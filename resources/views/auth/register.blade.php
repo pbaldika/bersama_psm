@@ -13,21 +13,26 @@
                 <div class="text-center">
                   <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
                     style="width: 185px;" alt="logo">
-                  <h4 class="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
+                  <h4 class="mt-1 mb-1">Bersama</h4>
+                  <p class="mb-4">Bekerja bersama, maju bersama</p>
                 </div>
 
                 <form method="POST" action="{{ route('register') }}">
                   @csrf
                   <p>Please fill in the details to register</p>
 
-                  <div class="form-outline mb-4">
-                    <input type="text" id="name" name ="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name" value="{{ old('name') }}"/>
+                  <div class="form row  mb-4">
+                  <div class="form-outline">
+                  <label class="form-label" for="form2Example11">Fullname</label>
+                    <input type="text" id="form2Example11" name ="name" class="form-control @error('name') is-invalid @enderror" placeholder="Name" value="{{ old('name') }}"/>
 
                     @error('name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>
                     @enderror
+                  </div>
+
                   </div>
 
                   <div class="form-outline mb-4">
@@ -51,7 +56,13 @@
                   </div>
 
                   <div class="form-outline mb-4">
-                    <input type="text" id="gender" name="gender" class="form-control @error('gender') is-invalid @enderror" placeholder="Gender" value="{{ old('gender') }}"/>
+                    <input list="gender" name="gender" class="form-control @error('gender') is-invalid @enderror" placeholder="Gender" value="{{ old('gender') }}"/>
+
+                    <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="gender" placeholder="gender">
+                    <option value="volvo">Male</option>
+                    <option value="saab">Female</option>
+                    <option value="opel">Prefer not to say</option>
+                  </select>
 
                     @error('gender')
                                     <span class="invalid-feedback" role="alert">
@@ -59,6 +70,7 @@
                                     </span>
                     @enderror
                   </div>
+                  
 
                   <div class="form-outline mb-4">
                     <input type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror" placeholder="Address" value="{{ old('address') }}"/>
@@ -70,7 +82,7 @@
                     @enderror
                   </div>
 
-                  <div class="form-outline mb-4">
+                  <div class="form-outline mb-4 input-group date" id='datetimepicker3'>
                     <input type="date" id="dob" name="dob" class="form-control @error('dob') is-invalid @enderror" placeholder="Date of Birth" value="{{ old('dob') }}"/>
 
                     @error('dob')
@@ -79,6 +91,7 @@
                                     </span>
                     @enderror
                   </div>
+                  
 
                   <div class="form-outline mb-4">
                     <input type="password" id="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Password" required autocomplete="new-password"/>

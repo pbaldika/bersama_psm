@@ -15,7 +15,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      *
      * @param  array<string, string>  $input
      */
-    public function update(User $user, array $input): void
+    public function update(User $user, array $input)
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
@@ -27,6 +27,10 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
             ],
+            'telephone'=> ['required', 'string', 'max:30', 'unique:users'],
+            'gender'=> ['required', 'string', 'max:20'],
+            'address'=> ['required', 'string', 'max:300'],
+            'dob'=> ['required', 'date']
         ])->validateWithBag('updateProfileInformation');
 
         if ($input['email'] !== $user->email &&
@@ -36,7 +40,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],
+                'telephone'=> $input['telephone'],
+                'gender'=> $input['gender'],
+                'address'=> $input['address'],
+                'dob'=> $input['dob']
             ])->save();
+
+            return redirect()->back()->with('message',"Information is updated succesfully!");
         }
     }
 
