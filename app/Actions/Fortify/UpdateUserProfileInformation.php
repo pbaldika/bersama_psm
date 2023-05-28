@@ -17,25 +17,27 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      */
     public function update(User $user, array $input)
     {
-        Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
 
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($user->id),
-            ],
-            'telephone'=> ['required', 'string', 'max:30', 'unique:users'],
-            'gender'=> ['required', 'string', 'max:20'],
-            'address'=> ['required', 'string', 'max:300'],
-            'dob'=> ['required', 'date']
-        ])->validateWithBag('updateProfileInformation');
+        //currently not working, fix later
+        // Validator::make($input, [
+        //     'name' => ['required', 'string', 'max:255'],
+
+        //     'email' => [
+        //         'required',
+        //         'string',
+        //         'email',
+        //         'max:255',
+        //         Rule::unique('users')->ignore($user->id),
+        //     ],
+        //     'telephone'=> ['required', 'string', 'max:30', 'unique:users'],
+        //     'gender'=> ['required', 'string', 'max:20'],
+        //     'address'=> ['required', 'string', 'max:300'],
+        //     'dob'=> ['required','date']
+        // ])->validateWithBag('updateProfileInformation');
 
         if ($input['email'] !== $user->email &&
             $user instanceof MustVerifyEmail) {
-            $this->updateVerifiedUser($user, $input);
+                           $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
                 'name' => $input['name'],

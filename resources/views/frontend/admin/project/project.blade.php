@@ -22,15 +22,15 @@
     </div>
 
     <div class="card-header">
-      <!-- Search user -->
+      <!-- Search project -->
       <nav class="navbar navbar-light bg-light">
         <form class="form-inline" action="{{route('admin.home')}}" method="GET">
           @csrf
-          <input class="form-control mr-sm-2" type="search" placeholder="Search User" aria-label="Search" name="user-search" id="user-search">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search User" aria-label="Search" name="project-search" id="project-search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </nav>
-      <a href="{{route('admin.users.create')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
+      <a href="{{route('admin.project.create')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
     </div>
     <div class="card-body p-0">
       <table class="table table-striped projects">
@@ -43,54 +43,54 @@
               Name
             </th>
             <th style="width: 20%">
-              Email
+              Description
             </th>
             <th style="width: 5%">
-              Role
+              Required Capital
             </th>
             <th style="width: 20%" class="text-center">
-              Telephone
+              Current Capital
             </th>
             <th style="width: 20%" class="text-center">
-              Address
+              Status
             </th>
             <th style="width: 14%" class="text-center">
             </th>
           </tr>
         </thead>
         <tbody>
-          @foreach($users as $key => $user)
+          @foreach($projects as $key => $project)
           <tr>
             <td>
-              {{$users->firstItem() + $key}}
+              {{$projects->firstItem() + $key}}
             </td>
             <td>
               <a>
-                {{$user->name}}
+                {{$project->name}}
               </a>
             </td>
             <td>
               <a>
-                {{$user->email}}
+                {{$project->description}}
               </a>
             </td>
             <td>
               <a>
-                {{$user->role}}
+                {{$project->required_capital}}
               </a>
             </td>
             <td class="project-state">
               <a>
-                {{$user->telephone}}
+                {{$project->current_capital}}
               </a>
             </td>
             <td class="project-state">
               <a>
-                {{$user->address}}
+                {{$project->progress_status}}
               </a>
             </td>
             <td class="project-actions text-center">
-              <a class="btn btn-primary btn-sm" href="{{route('admin.user.show', $user->id)}}">
+              <a class="btn btn-primary btn-sm" href="{{route('admin.project.show', $project->id)}}">
                 <i class="fas fa-folder">
                 </i>
                 View
@@ -103,10 +103,10 @@
       </table>
 
       <div class="d-flex justify-content-center mt-3">
-        <p> Page : {{$users->currentPage()}}</p> <br><br>
+        <p> Page : {{$projects->currentPage()}}</p> <br><br>
       </div>
       <div class="d-flex justify-content-center">
-        {{$users->links()}}
+        {{$projects->links()}}
       </div>
 
     </div>

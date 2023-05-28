@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class AdminController extends Controller
 {
@@ -15,9 +18,92 @@ class AdminController extends Controller
         $users = User::paginate(30);
         return view('frontend.admin.user', ['users' => $users]);
     }
+    public function userShowCreate(){
+        return view('frontend.admin.user-create');
+    }
+    public function userCreate(Request $input){
+        // Validator::make($input, [
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => [
+        //         'required',
+        //         'string',
+        //         'email',
+        //         'max:255',
+        //         Rule::unique(User::class),
+        //     ],
+        //     'telephone'=> ['required', 'string', 'max:30', 'unique:users'],
+        //     'gender'=> ['required', 'string', 'max:20'],
+        //     'address'=> ['required', 'string', 'max:300'],
+        //     'dob'=> ['required', 'date'],
+        //     'password' => $this->passwordRules(),
+        //     'role'=> ['required', 'string', 'max:20'],
+        // ])->validate();
+
+        $user = User::create([
+            'name' => $input['name'],
+            'email' => $input['email'],
+            'telephone'=> $input['telephone'],
+            'gender'=> $input['gender'],
+            'address'=> $input['address'],
+            'dob'=> $input['dob'],
+            'password' => Hash::make($input['password']),
+            'role'=> $input['role'],
+        ]);
+
+        $users = User::paginate(30);
+        return redirect()->route('admin.user', ['users' => $user])->with('message',"New user added");
+    }
 
     public function userProfile(User $user){
         $user = User::findOrFail($user->id);
         return view('frontend.admin.user-profile', ['user' => $user]);
+    }
+
+    public function userShowUpdate(User $user){
+        $user = User::findOrFail($user->id);
+        return view('frontend.admin.user-update', ['user' => $user]);
+    }
+
+    public function userUpdate(User $user, Request $request)
+    {
+
+        //currently not working, fix later
+        // Validator::make($input, [
+        //     'name' => ['required', 'string', 'max:255'],
+
+        //     'email' => [
+        //         'required',
+        //         'string',
+        //         'email',
+        //         'max:255',
+        //         Rule::unique('users')->ignore($user->id),
+        //     ],
+        //     'telephone'=> ['required', 'string', 'max:30', 'unique:users'],
+        //     'gender'=> ['required', 'string', 'max:20'],
+        //     'address'=> ['required', 'string', 'max:300'],
+        //     'dob'=> ['required','date']
+        // ])->validateWithBag('updateProfileInformation');
+
+            $user->update([
+                'name' => $request['name'],
+                'email' => $request['email'],
+                'telephone'=> $request['telephone'],
+                'gender'=> $request['gender'],
+                'address'=> $request['address'],
+                'dob'=> $request['dob']
+            ]);
+
+            return redirect()->back()->with('message',"Information is updated succesfully!");
+    }
+
+    public function userDelete(User $user){
+        $user->delete();
+
+        $users = User::paginate(30);
+        return redirect()->route('admin.user', ['users' => $user])->with('message',"user has been deleted!");
+    }
+
+    public function userShowVerify(){
+        return view('frontend.admin.user-verify');
     }
 }

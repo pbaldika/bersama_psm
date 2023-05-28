@@ -33,21 +33,20 @@
                 </ul>
 
                 <div class="row row-cols-1">
-
-                <div class="col mb-2">
+                
+                <div class="col">
                 <a href="{{route('admin.user.show-update', $user)}}" class="btn btn-primary btn-block"><b>Update</b></a>
                 </div>
-                <div class="col mb-2">
+                <div class="col">
                 <form action="{{route('admin.user.delete', $user)}}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button type="submit" class="btn btn-danger btn-block"><b>Delete</b></a>
                 </form>
                 </div>
-                <div class="col mb-2">
-                <a href="{{route('admin.user.verify', $user)}}" class="btn btn-warning btn-block"><b>Verify</b></a>
+                <div class="col">
                 </div>
-                </div>
+              </div>
               </div>
               <!-- /.card-body -->
             </div>
