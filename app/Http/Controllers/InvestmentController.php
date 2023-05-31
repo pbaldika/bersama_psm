@@ -66,7 +66,7 @@ class InvestmentController extends Controller
 
         
 
-        return view('frontend.user.upload-image')->with('message',"Image is Uploaded!");
+        return back()->with('message',"Image is Uploaded!");
     }
     public function viewPhoto(Request $input)
     {

@@ -3,6 +3,13 @@
     <!-- Main content -->
     <section class="content">
 
+    @if(session('message'))
+<h6 class="alert alert-success">
+        {{ session('message') }}
+    </h6>
+@endif
+
+
       <!-- Default box -->
       <div class="card card-solid">
         <div class="card-body">
@@ -11,11 +18,11 @@
               <h3 class="d-inline-block d-sm-none">LOWA Men’s Renegade GTX Mid Hiking Boots Review</h3>
               <div class="col-12 mb-2">
                 <h3>Foto Bukti Identitas</h3>
-                <img src="https://cdn.kibrispdr.org/data/34/contoh-foto-ktp-0.jpg" class="product-image" alt="Product Image">
+                <img src="{{ url('public/UserID/'.$user->IDPhoto_name) }}" class="product-image" alt="User ID Photo">
               </div>
               <div class="col-12">
               <h3>Foto Pemilik Identitas</h3>
-                <img src="https://kaltengtoday.com/wp-content/uploads/2021/08/Cara-Unggah-Foto-KTP-yang-Aman-dari-Penyalahgunaan-untuk-Verifikasi-Akun-Digital-as.jpg" class="product-image" alt="Product Image">
+                <img src="{{ url('public/UserIDSelfie/'.$user->SelfieIDPhoto_name) }}" class="product-image" alt="Product Image">
               </div>
             </div>
             <div class="col-12 col-sm-6">
@@ -23,15 +30,19 @@
               <h2>Informasi Verifikasi Identitas</h2>
               <p>Jenis Identitas: KTP</p>
               <hr>
-
+              
               <div class="mt-4">
-                <div class="btn btn-success btn-lg btn-flat">
-                  Verifikasi
-                </div>
-
-                <div class="btn btn-danger btn-lg btn-flat">
-                  Tolak
-                </div>
+              @if($user->verified == "request")
+                <form method="post" action="{{route('admin.user.verify', $user)}}">
+                @csrf
+                @method("PUT")
+                  <button name="verified" type="submit" class="btn btn-success btn-lg btn-flat" value="verified">Verifikasi</button>
+                  <button name="verified" type="submit" class="btn btn-danger btn-lg btn-flat" value="tolak">Tolak</button>
+              @elseif($user->verified == "verified")
+                <h2>User has been verified<h2>
+              @elseif($user->verified == "tolak")
+                <h2>Verifikasi User Ditolak! Tunggu Sampai User Meng-upload verifikasi baru.<h2>
+              @endif
               </div>
 
             </div>

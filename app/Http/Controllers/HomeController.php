@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Project;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,7 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        if(Auth::user()->verified == 0)
+            return view('frontend.welcome')->with('message',"Why not verify yourself?");  
+        else
+            return view('frontend.welcome')->with('message',"Youre verified");    
+    }
+    public function landing()
+    {
+        if(Auth::user()->verified == 0)
+            return view('frontend.welcome')->with('alert',"Why not verify yourself?");  
+        else
+            return view('frontend.welcome')->with('alert',"Youre verified");    
     }
     public function indexVerified()
     {

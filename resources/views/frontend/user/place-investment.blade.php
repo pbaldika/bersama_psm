@@ -1,6 +1,12 @@
 @extends('layouts.user')
 @section('content')
 <!-- ======= Contact Section ======= -->
+@if(session('message'))
+<h6 class="alert alert-success">
+        {{ session('message') }}
+    </h6>
+@endif
+
 <section id="contact" class="contact">
       <div class="container">
 

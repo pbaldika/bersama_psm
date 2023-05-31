@@ -9,7 +9,9 @@
             </ul>
           </li> -->
 
+          <li><a class="nav-link scrollto" href="{{route('landing')}}">Home</a></li>
           <li><a class="nav-link scrollto" href="{{route('investment-list')}}">Projects</a></li>
+          <li><a class="nav-link scrollto" href="{{route('investment-made')}}">Portfolio</a></li>
           <li><a class="nav-link scrollto" href="index.html#services">Services</a></li>
           <li><a class="nav-link scrollto" href="index.html#portfolio">Portfolio</a></li>
           <li><a class="nav-link scrollto" href="index.html#team">Team</a></li>

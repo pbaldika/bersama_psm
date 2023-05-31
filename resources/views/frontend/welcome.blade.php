@@ -1,7 +1,17 @@
 @extends('layouts.user')
 @section('content')
+
 <section id="hero-animated" class="hero-animated d-flex align-items-center">
+  
+
+
     <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative" data-aos="zoom-out">
+    @if(Auth::user()->verified!="verified")
+    <div class="">
+      <p>Akun kamu belum di ter-verifikasi secara optimal! Ayok upload foto Identitas Kamu supaya kamu bisa akses semua feature.<p>
+      <a href="{{route('verification-add')}}" class="btn-get-started scrollto">Verify Akun Kamu!</a>
+    </div>
+  @endif
       <img src="assets/img/hero-carousel/hero-carousel-3.svg" class="img-fluid animated">
       <h2>Grow Your Investment With Us<span> Bersama</span></h2>
       <p>Et voluptate esse accusantium accusamus natus reiciendis quidem voluptates similique aut.</p>
@@ -11,6 +21,8 @@
       </div>
     </div>
   </section>
+
+
   
     <!-- ======= Featured Services Section ======= -->
     <section id="featured-services" class="featured-services">

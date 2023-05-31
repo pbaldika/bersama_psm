@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -16,10 +17,10 @@ class AdminController extends Controller
 
     public function user(){
         $users = User::paginate(30);
-        return view('frontend.admin.user', ['users' => $users]);
+        return view('frontend.admin.user.user', ['users' => $users]);
     }
     public function userShowCreate(){
-        return view('frontend.admin.user-create');
+        return view('frontend.admin.user.user-create');
     }
     public function userCreate(Request $input){
         // Validator::make($input, [
@@ -56,12 +57,21 @@ class AdminController extends Controller
 
     public function userProfile(User $user){
         $user = User::findOrFail($user->id);
-        return view('frontend.admin.user-profile', ['user' => $user]);
+
+        // $investment = DB::table('investments')->where('user_id','=',$user->id)->get();
+
+        $investments= DB::table('investments')
+        ->where('user_id', '=', $user->id)
+        ->join('projects', 'investments.project_id','=','projects.id')
+        ->get(['investments.id', 'investments.total', 'investments.status', 'investments.profit', 'investments.created_at', 'projects.name', 'projects.description']);
+        // return dd($investment);
+
+        return view('frontend.admin.user.user-profile', compact('user','investments'));
     }
 
     public function userShowUpdate(User $user){
         $user = User::findOrFail($user->id);
-        return view('frontend.admin.user-update', ['user' => $user]);
+        return view('frontend.admin.user.user-update', ['user' => $user]);
     }
 
     public function userUpdate(User $user, Request $request)
@@ -103,7 +113,14 @@ class AdminController extends Controller
         return redirect()->route('admin.user', ['users' => $user])->with('message',"user has been deleted!");
     }
 
-    public function userShowVerify(){
-        return view('frontend.admin.user-verify');
+    public function userShowVerify(User $user){
+        return view('frontend.admin.user.user-verify', ['user' => $user]);
+    }
+    public function userVerify(User $user, Request $request){
+        User::findOrFail($user->id)->update([
+            'verified' => $request['verified'],
+        ]);
+
+        return redirect()->back()->with('message', "Status Verifikasi User Diperbarui");
     }
 }

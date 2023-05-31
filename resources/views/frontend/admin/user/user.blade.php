@@ -30,7 +30,7 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </nav>
-      <a href="{{route('admin.users.create')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
+      <a href="{{route('admin.user.create')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
     </div>
     <div class="card-body p-0">
       <table class="table table-striped projects">
