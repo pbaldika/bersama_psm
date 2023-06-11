@@ -25,10 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->verified == 0)
-            return view('frontend.welcome')->with('message',"Why not verify yourself?");  
-        else
-            return view('frontend.welcome')->with('message',"Youre verified");    
+            return view('frontend.welcome');
     }
     public function landing()
     {

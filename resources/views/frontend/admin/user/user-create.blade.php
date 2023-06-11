@@ -95,6 +95,8 @@
               </div>
             </div>
 
+            <input id="verified" type="hidden" name="verified" value="belum">
+
 
           <input type="submit" value="Save Changes" class="btn btn-success float-right">
         </form>
@@ -104,4 +106,4 @@
           <!-- /.card -->
     </section>
     <!-- /.content -->
-@stopß
+@stop

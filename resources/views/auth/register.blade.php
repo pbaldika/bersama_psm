@@ -108,6 +108,7 @@
                   </div>
 
                   <input id="role" type="hidden" class="form-control" name="role" value="user">
+                  <input id="verified" type="hidden" name="verified" value="belum">
 
                   <div class="text-center pt-1 mb-5 pb-1">
                     <button type="submit" class="btn btn-outline-danger">{{ __('Register') }}</button>

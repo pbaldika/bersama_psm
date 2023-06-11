@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function() {
     Route::delete('/admin/{user}/delete', [App\Http\Controllers\AdminController::class, 'userDelete'])->name('admin.user.delete');
     Route::get('/admin/{user}/verify', [App\Http\Controllers\AdminController::class, 'userShowVerify'])->name('admin.user.show-verify');
     Route::put('/admin/{user}/verify', [App\Http\Controllers\AdminController::class, 'userVerify'])->name('admin.user.verify');
+    Route::get('/admin/{user}/investment', [App\Http\Controllers\AdminController::class, 'userInvestment'])->name('admin.user.investment');
 
     /*
     |--------------------------------------------------------------------------

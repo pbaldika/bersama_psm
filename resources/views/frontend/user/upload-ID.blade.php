@@ -28,6 +28,7 @@
       <input type="file" class="form-control" required name="IDPhoto">
       <label><h4>Add Selfie With ID</h4></label>
       <input type="file" class="form-control" required name="SelfieIDPhoto">
+      <input id="verified" type="hidden" name="verified" value="request">
     </div>
 
 

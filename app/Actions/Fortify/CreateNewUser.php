@@ -45,6 +45,7 @@ class CreateNewUser implements CreatesNewUsers
             'dob'=> $input['dob'],
             'password' => Hash::make($input['password']),
             'role'=> $input['role'],
+            'verified'=>$input['verified'],
         ]);
     }
 }
