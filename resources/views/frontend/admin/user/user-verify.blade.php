@@ -38,6 +38,7 @@
                 @method("PUT")
                   <button name="verified" type="submit" class="btn btn-success btn-lg btn-flat" value="verified">Verifikasi</button>
                   <button name="verified" type="submit" class="btn btn-danger btn-lg btn-flat" value="tolak">Tolak</button>
+                </form>
               @elseif($user->verified == "verified")
                 <h2>User has been verified<h2>
               @elseif($user->verified == "tolak")

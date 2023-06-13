@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('fundings', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->double('fund_required');
+            $table->double('fund_required')->nullable();
             $table->date('start_date');
             $table->date('end_date');
+            $table->foreignId('customer_id')->constrained('users');
+            $table->string('customerName');
+            $table->string('customerOrder');
             $table->string('description');
             $table->string('status');
             $table->string('company_registration_number')->nullable(); 

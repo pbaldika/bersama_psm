@@ -18,12 +18,13 @@ class InvestmentController extends Controller
     {
         //
     }
-    
-    public function investmentList(){
-        $investments= DB::table('investments')
-        ->where('user_id', '=', auth()->user()->id)
-        ->join('projects', 'investments.project_id','=','projects.id')
-        ->get(['investments.id', 'investments.total', 'investments.status', 'projects.name', 'projects.description']);
+
+    public function investmentList()
+    {
+        $investments = DB::table('investments')
+            ->where('user_id', '=', auth()->user()->id)
+            ->join('projects', 'investments.project_id', '=', 'projects.id')
+            ->get(['investments.id', 'investments.total', 'investments.status', 'projects.name', 'projects.description']);
         return view('frontend.user.investment-made', ['investments' => $investments]);
     }
 
@@ -35,10 +36,10 @@ class InvestmentController extends Controller
         $investment = Investment::create([
             'total' => $input['total'],
             'profit' => $input['profit'],
-            'status'=> $input['status'],
-            'payment_proof'=> $input['payment_proof'],
-            'user_id'=> $input['user_id'],
-            'project_id'=> $input['project_id'],
+            'status' => $input['status'],
+            'payment_proof' => $input['payment_proof'],
+            'user_id' => $input['user_id'],
+            'project_id' => $input['project_id'],
         ]);
 
         return back();
@@ -54,25 +55,30 @@ class InvestmentController extends Controller
         $request->validate([
             'image' => 'required|image|mimes:png,jpg,jpeg|max:2048'
         ]);
-        
-        if($request->file('image')){
-            $file= $request->file('image');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('public/Image'), $filename);
+
+        if ($request->file('image')) {
+            $file = $request->file('image');
+            $filename = date('YmdHi') . $file->getClientOriginalName();
+            $file->move(public_path('public/Image'), $filename);
             Investment::findOrFail($investment->id)->update([
                 'payment_proof' => $filename,
             ]);
         }
 
-        
-
-        return back()->with('message',"Image is Uploaded!");
+        return back()->with('message', "Image is Uploaded!");
     }
     public function viewPhoto(Request $input)
     {
-        
-
         return back();
+    }
+
+    public function verify(Investment $investment, Request $request)
+    {
+        Investment::findOrFail($investment->id)->update([
+            'status' => $request['status'],
+        ]);
+
+        return redirect()->back()->with('message', "Status Verifikasi Investasi Diperbarui!");
     }
 
     /**

@@ -70,7 +70,7 @@
                 </div>
               </div>
 
-              <input type="hidden" name="status" id="status" value = "active">
+              <input type="hidden" name="status" id="status" value = "request">
               <input type="hidden" name="user_id" id="user_id" value = "{{ Auth::user()->id }}">
               <input type="hidden" name="project_id" id="project_id" value = "{{$project->id}}">
               

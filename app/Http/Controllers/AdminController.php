@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Investment;
+use App\Models\Project;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -138,53 +139,12 @@ class AdminController extends Controller
     {
 
         // $user = User::findOrFail($user->id);
-        $invest = DB::table('investments')
-            ->where('investments.id', '=', $investment->id)
-            ->get();
-        // $project = DB::table('projects')
-        // ->where('projects.id', '=', $investment->project_id)
-        // ->get();
+        $investment = Investment::find($investment->id);
+        $user = User::find($investment->user_id);
+        $project = Project::find($investment->project_id);
 
-        // $investment= DB::table('investments')
-        // // ->where([['investments.id', '=', $investment->id], ['user_id', '=', $user->id]])
-        // ->where('investments.id', '=', $investment->id)
-        // ->join('projects', 'investments.project_id','=','projects.id')
-        // ->get(['investments.total', 'investments.status', 'investments.profit', 
-        //         'investments.created_at', 'investments.payment_proof', 
-        //         'projects.name', 'projects.description']);
+        // return dd($investment, $user, $project);
 
-        return view('frontend.admin.user.user-investment', compact('user', 'invest', 'project'));
+        return view('frontend.admin.user.user-investment', ['investment' => $investment, 'user' => $user, 'project' => $project]);
     }
-
-    public function makeAppointment(Request $request)
-    {
-
-        $validator = Validator::make($request->all(), [
-            'dentistID' => 'required',
-            'patientID' => 'required',
-            'treatmentID' => 'required',
-            'date' => 'required',
-            'time' => 'required',
-            'status' => 'required',
-        ]);
-
-
-        if ($validator->fails()) {
-            // Handle appointment creation failure
-            return redirect()->back()->with('error', 'Failed to create appointment.');
-        } else {
-
-            Appointment::create([
-                'dentistId' => $request['dentistID'],
-                'patientID' => $request['patientID'],
-                'treatmentID' => $request['treatmentID'],
-                'date' => $request['date'],
-                'time' => $request['time'],
-                'status' => $request['status'],
-            ]);
-            
-            return redirect()->route('book.appointment.new')->with('success', 'Appointment created successfully.');
-        }
-    }
-
 }

@@ -24,6 +24,6 @@ class AdminMiddleware
             abort(403);
           }
 
-        return $next($request);
+        // return $next($request);
     }
 }

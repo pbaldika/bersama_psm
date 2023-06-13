@@ -1,57 +1,67 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+use App\Models\Funding;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
-class UserController extends Controller
+class FundingController extends Controller
 {
-    public function update(){
-        return view('frontend.user.profile');
+    public function create(){
+        return view('frontend.company.request');
     }
 
-    public function profile(Request $id){
-        
-    }
+    public function createFunding(Request $input)
+    {
+        // Validator::make($input, [
+        //     'name' => ['required', 'string', 'max:255'],
+        //     'email' => [
+        //         'required',
+        //         'string',
+        //         'email',
+        //         'max:255',
+        //         Rule::unique(Project::class),
+        //     ],
+        //     'telephone'=> ['required', 'string', 'max:30', 'unique:projects'],
+        //     'gender'=> ['required', 'string', 'max:20'],
+        //     'address'=> ['required', 'string', 'max:300'],
+        //     'dob'=> ['required', 'date'],
+        //     'password' => $this->passwordRules(),
+        //     'role'=> ['required', 'string', 'max:20'],
+        // ])->validate();
 
-    public function addVerification()
-    {
-        return view('frontend.user.upload-ID');
-    }
-    public function uploadVerification(Request $request)
-    {
-        $request->validate([
-            'IDPhoto' => 'required|image|mimes:png,jpg,jpeg|max:2048'
+        $project = Funding::create([
+            'fund_required'=> $input['fund_required'],
+            'start_date' => $input['start_date'],
+            'end_date' => $input['end_date'],
+            'customer_id' => $input['customer_id'],
+            'customerName' => $input['customerName'],
+            'customerOrder' => $input['customerOrder'],
+            'description' => $input['description'],
+            'status' => $input['status'],
+            'company_registration_number' => $input['company_registration_number'],
         ]);
-        
-        if($request->file('IDPhoto') && $request->file('SelfieIDPhoto')){
 
-            
-            $file= $request->file('IDPhoto');
-            $filename= date('YmdHi').$file->getClientOriginalName();
-            $file-> move(public_path('public/userID'), $filename);
-
-            $file1= $request->file('SelfieIDPhoto');
-            $filename1= date('YmdHi').$file1->getClientOriginalName();
-            $file1-> move(public_path('public/userIDSelfie'), $filename1);
-
-
-            User::findOrFail(Auth::user()->id)->update([
-                'IDNumber' => $request['IDNumber'],
-                'IDPhoto_name' => $filename,
-                'SelfieIDPhoto_name' => $filename1,
-                'verified' => $request['verified'],
-            ]);
-        }
-        
-        return back()->with('message',"Verification is under review!");
+        return redirect()->back()->with('message',"Funding Request is created!");
     }
-    public function viewPhoto(Request $input)
-    {
-        
 
-        return back();
+    public function listFunding(){
+        $fundings = Funding::paginate(30);
+        return view('frontend.admin.funding.funding', ['fundings' => $fundings]);
     }
+
+    public function detailsFunding(Funding $funding){
+        $funding = Funding::findOrFail($funding->id);
+        $user = User::findOrFail($funding->customer_id);
+        return view('frontend.admin.funding.funding-details', ['funding' => $funding, 'user' => $user]);
+    }
+
+    public function verify(Funding $funding, Request $input){
+        $funding->update([
+            'status' => $input['status'],
+        ]);
+
+        return redirect()->back()->with('message', "Status Verifikasi Order telah Diperbarui!");
+    }
+
 }

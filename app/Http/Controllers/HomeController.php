@@ -13,10 +13,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -25,14 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-            return view('frontend.welcome');
+        return view('frontend.welcome');
     }
     public function landing()
     {
-        if(Auth::user()->verified == 0)
-            return view('frontend.welcome')->with('alert',"Why not verify yourself?");  
-        else
-            return view('frontend.welcome')->with('alert',"Youre verified");    
+        $projects = Project::paginate(3);
+        return view('landing', ['projects' => $projects]);    
     }
     public function indexVerified()
     {

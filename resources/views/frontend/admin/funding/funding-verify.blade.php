@@ -49,16 +49,16 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                  @if($investment->status == "request")
-                <form method="post" action="{{route('admin.investment.verify', $investment)}}">
+                  @if($funding->status == "request")
+                <form method="post" action="{{route('admin.funding.verify', $investment)}}">
                 @csrf
                 @method("PUT")
                   <button name="status" type="submit" class="btn btn-success btn-lg btn-flat" value="active">Verifikasi</button>
                   <button name="status" type="submit" class="btn btn-danger btn-lg btn-flat" value="denied">Tolak</button>
                 </form>
-              @elseif($investment->status == "active")
+              @elseif($funding->status == "active")
                 <h2>Investasi User telah diterima<h2>
-              @elseif($investment->status == "denied")
+              @elseif($funding->status == "denied")
                 <h2>Investasi User telah ditolak!<h2>
               @endif
                 </div>

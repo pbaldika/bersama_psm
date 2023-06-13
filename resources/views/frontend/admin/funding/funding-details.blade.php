@@ -11,7 +11,7 @@
                 <div class="col-12">
                   <h4>
                     <i class="fas fa-globe"></i> AdminLTE, Inc.
-                    <small class="float-right">Date: {{$investment->project_id}}</small>
+                    <small class="float-right">Date:å</small>
                   </h4>
                 </div>
                 <!-- /.col -->
@@ -19,13 +19,11 @@
               <!-- info row -->
               <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                  From
+                  Order Dari:
                   <address>
-                    <strong>Admin, Inc.</strong><br>
-                    795 Folsom Ave, Suite 600<br>
-                    San Francisco, CA 94107<br>
-                    Phone: (804) 123-5432<br>
-                    Email: info@almasaeedstudio.com
+                    <strong>{{$funding->customerName}}</strong><br>
+                    {{$user->address}}<br>
+                    Email: {{$user->email}}
                   </address>
                 </div>
                 <!-- /.col -->
@@ -49,20 +47,19 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col">
-                  @if($investment->status == "request")
-                <form method="post" action="{{route('admin.investment.verify', $investment)}}">
+                  @if($funding->status == "request")
+                <form method="post" action="{{route('admin.funding.verify', $funding)}}">
                 @csrf
                 @method("PUT")
                   <button name="status" type="submit" class="btn btn-success btn-lg btn-flat" value="active">Verifikasi</button>
                   <button name="status" type="submit" class="btn btn-danger btn-lg btn-flat" value="denied">Tolak</button>
                 </form>
-              @elseif($investment->status == "active")
-                <h2>Investasi User telah diterima<h2>
-              @elseif($investment->status == "denied")
-                <h2>Investasi User telah ditolak!<h2>
+              @elseif($funding->status == "active")
+                <h2>Order telah diverifikasi<h2>
+              @elseif($funding->status == "denied")
+                <h2>Order telah ditolak<h2>
               @endif
                 </div>
-                
               </div>
               <!-- /.row -->
 
@@ -118,10 +115,17 @@
               <div class="row">
                 <!-- accepted payments column -->
                 <div class="col-6">
-                <div class="col-12 mb-2 mt-2">
-                <h3>Foto Bukti Pembayaran</h3>
-                <img src="{{ url('public/Image'.$investment->payment_proof) }}" class="product-image" alt="User ID Photo">
-              </div>
+                  <p class="lead">Payment Methods:</p>
+                  <img src="../../dist/img/credit/visa.png" alt="Visa">
+                  <img src="../../dist/img/credit/mastercard.png" alt="Mastercard">
+                  <img src="../../dist/img/credit/american-express.png" alt="American Express">
+                  <img src="../../dist/img/credit/paypal2.png" alt="Paypal">
+
+                  <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                    Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem
+                    plugg
+                    dopplr jibjab, movity jajah plickers sifteo edmodo ifttt zimbra.
+                  </p>
                 </div>
                 <!-- /.col -->
                 <div class="col-6">

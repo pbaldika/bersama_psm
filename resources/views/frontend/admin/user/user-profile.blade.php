@@ -170,7 +170,7 @@
               </a>
             </td>
             <td class="project-actions text-center">
-              <a class="btn btn-primary btn-sm" href="{{route('admin.user.investment', ['investment' => $investment->id, 'user' => $user->id])}}">
+              <a class="btn btn-primary btn-sm" href="{{route('admin.user.investment', $investment->id)}}">
                 <i class="fas fa-folder">
                 </i>
                 View

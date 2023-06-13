@@ -14,32 +14,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Route::get('/', function () {
-//     return view('frontend.welcome');
+//     return view('landing');
 // })->name('landing');
 
-Route::get('/test', function () {
-    return view('frontend.test')->with('message', 'test message!');
-});
+Route::get('/', [App\Http\Controllers\HomeController::class, 'landing'])->name('landing');
+
+// Route::get('/test', function () {
+//     return view('frontend.test')->with('message', 'test message!');
+// });
 
 
-Route::get('/admin-check', function () {
-    return view('frontend.admin.welcome');
-});
-
-// Auth::routes(); 
+// Route::get('/admin-check', function () {
+//     return view('frontend.admin.welcome');
+// });
 
 
-/*
-|--------------------------------------------------------------------------
-| Investment
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
- */
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('landing');
 Route::get('/home-verified', [App\Http\Controllers\HomeController::class, 'indexVerified'])->name('home-verified')->middleware(['auth','verified']);
 Route::get('/update', [App\Http\Controllers\UserController::class, 'update'])->name('update')->middleware(['auth','verified']); 
 Route::get('/available-investment', [App\Http\Controllers\HomeController::class, 'investmentList'])->name('investment-list')->middleware(['auth','verified']); 
@@ -77,7 +66,6 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function() {
     Route::delete('/admin/{user}/delete', [App\Http\Controllers\AdminController::class, 'userDelete'])->name('admin.user.delete');
     Route::get('/admin/{user}/verify', [App\Http\Controllers\AdminController::class, 'userShowVerify'])->name('admin.user.show-verify');
     Route::put('/admin/{user}/verify', [App\Http\Controllers\AdminController::class, 'userVerify'])->name('admin.user.verify');
-    Route::get('/admin/{user}/investment', [App\Http\Controllers\AdminController::class, 'userInvestment'])->name('admin.user.investment');
 
     /*
     |--------------------------------------------------------------------------
@@ -99,6 +87,9 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function() {
     | Investment Management Routes
     |--------------------------------------------------------------------------
     */
+    Route::get('/admin/{investment}/investment', [App\Http\Controllers\AdminController::class, 'userInvestment'])->name('admin.user.investment');
+    Route::put('/admin/{investment}/investment-verify', [App\Http\Controllers\InvestmentController::class, 'verify'])->name('admin.investment.verify');
+
     // Route::get('/admin/project', [App\Http\Controllers\InvestmentController::class, 'project'])->name('admin.project');
     // Route::get('/admin/project/create', [App\Http\Controllers\InvestmentControllerr::class, 'projectShowCreate'])->name('admin.project.show-create');
     // Route::post('/admin/project/create', [App\Http\Controllers\InvestmentController::class, 'projectCreate'])->name('admin.project.create');
@@ -108,6 +99,17 @@ Route::group(['middleware' => ['auth', 'admin', 'verified']], function() {
     // Route::delete('/admin/{project}/delete', [App\Http\Controllers\InvestmentControllerController::class, 'projectDelete'])->name('admin.project.delete');
     // Route::get('/admin/{project}/verify', [App\Http\Controllers\InvestmentController::class, 'projectShowVerify'])->name('admin.project.show-verify');
     // Route::post('/admin/{project}/verify', [App\Http\Controllers\InvestmentController::class, 'projectVerify'])->name('admin.project.verify');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Funding Management Routes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/admin/funding', [App\Http\Controllers\FundingController::class, 'listFunding'])->name('admin.funding');
+    Route::get('/admin/funding-create', [App\Http\Controllers\FundingController::class, 'listFunding'])->name('admin.funding.create');
+    Route::get('/admin/funding-show', [App\Http\Controllers\FundingController::class, 'listFunding'])->name('admin.funding.show');
+    Route::get('/admin/{funding}/funding-details', [App\Http\Controllers\FundingController::class, 'detailsFunding'])->name('admin.funding.details');
+    Route::put('/admin/{funding}/funding-verify', [App\Http\Controllers\FundingController::class, 'verify'])->name('admin.funding.verify');
 });
 
 Route::group(['middleware' => ['auth', 'company']], function() {
@@ -116,5 +118,9 @@ Route::group(['middleware' => ['auth', 'company']], function() {
     Route::get('/company', function () {
         return view('frontend.company.welcome');
     });
+
+    Route::get('/funding', [App\Http\Controllers\FundingController::class, 'create'])->name('funding');
+    Route::post('/funding', [App\Http\Controllers\FundingController::class, 'createFunding'])->name('create-funding');
+
 });
 
