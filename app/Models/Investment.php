@@ -17,4 +17,8 @@ class Investment extends Model
         'user_id',
         'project_id',
     ];
+
+    protected $dates = [
+        'payment_deadline',
+    ];
 }

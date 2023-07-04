@@ -19,7 +19,6 @@ return new class extends Migration
             $table->double('required_capital')->nullable();
             $table->double('current_capital')->nullable();
             $table->string('progress_status');
-            $table->string('investor');
         });
     }
 

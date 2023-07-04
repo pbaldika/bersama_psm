@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Funding;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class FundingController extends Controller
 {
-    public function create(){
+    public function create()
+    {
         return view('frontend.company.request');
     }
 
@@ -30,8 +32,15 @@ class FundingController extends Controller
         //     'role'=> ['required', 'string', 'max:20'],
         // ])->validate();
 
-        $project = Funding::create([
-            'fund_required'=> $input['fund_required'],
+        if ($input->hasFile('image')) {
+            $order_photo = $input->file('image');
+            $filename = date('YmdHi') . '_' . $order_photo->getClientOriginalName();
+            // Store the new images
+            $order_photo->storeAs('private/order', $filename);
+        }
+
+        Funding::create([
+            'fund_required' => $input['fund_required'],
             'start_date' => $input['start_date'],
             'end_date' => $input['end_date'],
             'customer_id' => $input['customer_id'],
@@ -40,28 +49,74 @@ class FundingController extends Controller
             'description' => $input['description'],
             'status' => $input['status'],
             'company_registration_number' => $input['company_registration_number'],
+            'identity_photo' => $filename,
+            'additional_info' => $input['information'],
         ]);
 
-        return redirect()->back()->with('message',"Funding Request is created!");
+        return redirect()->back()->with('message', "Pemesanan Barang Telah Terbuat!");
     }
 
-    public function listFunding(){
+    public function listFunding()
+    {
         $fundings = Funding::paginate(30);
         return view('frontend.admin.funding.funding', ['fundings' => $fundings]);
     }
 
-    public function detailsFunding(Funding $funding){
+    public function detailsFunding(Funding $funding)
+    {
         $funding = Funding::findOrFail($funding->id);
         $user = User::findOrFail($funding->customer_id);
-        return view('frontend.admin.funding.funding-details', ['funding' => $funding, 'user' => $user]);
+
+        try {
+            $funding = Funding::findOrFail($funding->id);
+            $user = User::findOrFail($funding->customer_id);
+            $filePath = storage_path('app/private/payment/' . $funding->order_photo);
+
+            // Check if the file exists
+            if (file_exists($filePath)) {
+                // Get the file contents
+                $fileContents = file_get_contents($filePath);
+                $imageData = null;
+                // Return a view to display the image
+                return view('frontend.admin.funding.funding-details', compact('funding', 'user'))->with('imageData', base64_encode($fileContents));
+            } elseif ($funding->order_photo == null) {
+                $imageData = null;
+                // File not found
+                $errorMessage = 'User Belum Mengupload Bukti Gambar';
+                return view('frontend.admin.funding.funding-details', compact('funding', 'user', 'imageData'))->with('errorMessage', $errorMessage);
+            }
+        } catch (\Exception $e) {
+            $imageData = null;
+            // Handle any exceptions that may occur
+            $errorMessage = 'Bukti Pembayaran Belum Ada';
+            return view('frontend.admin.funding.funding-details', compact('funding', 'user', 'imageData'))->with('errorMessage', $errorMessage);
+        }
     }
 
-    public function verify(Funding $funding, Request $input){
+    public function verify(Funding $funding, Request $input)
+    {
         $funding->update([
             'status' => $input['status'],
         ]);
 
         return redirect()->back()->with('message', "Status Verifikasi Order telah Diperbarui!");
+    }
+
+    public function search(Request $request)
+    {
+        // Get the search query from the request
+        $searchQuery = $request->input('funding-search');
+
+        // Perform the search query on the users table
+        $fundings = Funding::where('customerOrder', 'like', '%' . $searchQuery . '%')
+            ->orWhere('status', 'like', '%' . $searchQuery . '%')
+            ->orWhere('customerName', 'like', '%' . $searchQuery . '%')
+            ->paginate(30);
+
+        if ($fundings->isEmpty()) {
+            return view('frontend.admin.funding.funding', ['fundings' => $fundings])->with('message', "User Tidak Ditemukan.");
+        }
+        return view('frontend.admin.funding.funding')->with(['fundings' => $fundings]);
     }
 
 }

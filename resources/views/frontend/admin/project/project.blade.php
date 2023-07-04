@@ -3,7 +3,7 @@
 <!-- Main content -->
 
 @if(session('message'))
-    <h6 class="alert alert-danger">
+    <h6 class="alert alert-success">
         {{ session('message') }}
     </h6>
 @endif
@@ -30,7 +30,7 @@
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
       </nav>
-      <a href="{{route('admin.project.create')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
+      <a href="{{route('admin.project.store')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
     </div>
     <div class="card-body p-0">
       <table class="table table-striped projects">

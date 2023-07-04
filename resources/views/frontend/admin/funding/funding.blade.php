@@ -24,13 +24,36 @@
     <div class="card-header">
       <!-- Search funding -->
       <nav class="navbar navbar-light bg-light">
-        <form class="form-inline" action="{{route('admin.home')}}" method="GET">
-          @csrf
-          <input class="form-control mr-sm-2" type="search" placeholder="Search User" aria-label="Search" name="funding-search" id="funding-search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        <form class="form-inline" action="{{ route('admin.funding.search') }}" method="GET">
+            <div class="d-flex">
+                <a href="{{ route('admin.funding.create') }}" class="btn btn-success ml-2 mr-2 my-2 my-sm-0">Buat
+                    Order</a>
+                <!-- Role filter -->
+                @csrf
+                <input class="form-control mr-sm-2 ms-2" type="search" placeholder="Cari Order"
+                    aria-label="Search" name="funding-search" id="funding-search">
+                <button class="btn btn-outline-success my-2 my-sm-0 ms-2" type="submit">Cari Order</button>
+            </div>
         </form>
-      </nav>
-      <a href="{{route('admin.funding.create')}}" class="btn btn-success my-2 my-sm-0" type="submit">Create</a>
+        <form action="{{ route('admin.funding') }}" id="funding-filter-form">
+            <select class="form-control mr-sm-2 ms-2 ml-2" name="role" id="funding-filter">
+                <option selected disabled>Pilih Status</option>
+                <option value="">Semua Peran</option>
+                <option value="active">Aktif</option>
+                <option value="selesai">Selesai</option>
+            </select>
+        </form>
+        <script>
+          // Listen for change event on the role filter select element
+          document.getElementById('funding-filter').addEventListener('change', function() {
+              // Trigger form submission when the role filter changes
+              document.getElementById('funding-filter-form').submit();
+              if(selectedValue==null){
+                location.reload();
+              }
+          });
+      </script>
+    </nav>
     </div>
     <div class="card-body p-0">
       <table class="table table-striped projects">
