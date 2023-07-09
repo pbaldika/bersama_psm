@@ -1,6 +1,6 @@
 @extends('layouts.user')
 @section('content')
-
+<section id="beranda">
     <section id="hero-animated" class="hero-animated d-flex align-items-center">
         <div class="container d-flex flex-column justify-content-center align-items-center text-center position-relative"
             data-aos="zoom-out">
@@ -29,13 +29,16 @@
                                 bisa
                                 akses semua feature.
                             <p>
-                                <a href="{{ route('verification-add-comp') }}" class="btn-get-started scrollto">Verify Akun Kamu!</a>
+                                <a href="{{ route('verification-add-comp') }}" class="btn-get-started scrollto">Verify Akun
+                                    Kamu!</a>
                         </div>
                     @elseif (Auth::user()->verified == 'tolak')
                         <div class="container">
-                            <p class="alert alert-danger">Verifikasi akun kamu ditolak! Mohon untuk meng-upload ulang verifikasi!
+                            <p class="alert alert-danger">Verifikasi akun kamu ditolak! Mohon untuk meng-upload ulang
+                                verifikasi!
                             <p>
-                                <a href="{{ route('verification-add-comp') }}" class="btn-get-started scrollto">Verify Ulang!</a>
+                                <a href="{{ route('verification-add-comp') }}" class="btn-get-started scrollto">Verify
+                                    Ulang!</a>
                         </div>
                     @endif
                 @endif
@@ -67,18 +70,57 @@
                                     src="{{ url('pro/' . $project->project_photo) }}">
                             </div>
                             <div class="details position-relative">
-                                <a href="#" class="stretched-link">
+                                <a href="{{ route('investment-details', $project->id) }}" class="stretched-link">
                                     <h3>{{ $project->name }}</h3>
                                 </a>
-                                <p>{{ Str::limit($project->description, 45) }}</p>
+                                @php
+                                    $currentCapital = (float) $project->current_capital;
+                                    $requiredCapital = (float) $project->required_capital;
+                                    $value = ($currentCapital / $requiredCapital) * 100;
+                                    
+                                    $keperluan = $requiredCapital - $currentCapital;
+                                @endphp
+                                <div class="pt-1">
+                                    <b>Dana Telah Terkumpulkan: {{ number_format($value, 2) }} %</b>
+                                    <div class="progress mt-1">
+                                        <div class="progress-bar" role="progressbar" style="width: {{ $value }}%;"
+                                            aria-valuenow={{ $value }} aria-valuemin="0" aria-valuemax="100">
+                                            {{ number_format($value, 2) }}%
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="d-flex flex-column mt-3 mb-3">
+                                            <span class="small-text mb-2">Jumlah Dana</span>
+                                            <span class="small-text fw-bold mb-2">Rp.
+                                                {{ number_format($project->required_capital, 0, '.', '.') }}</span>
+                                        </div>
+                                        <div class="d-flex flex-column mt-3 mb-1">
+                                            <span class="small-text mb-2"><b>Margin Nisbah</b></span>
+                                            <span class="small-text mb-0">Bersama:
+                                                <b>{{ $project->profit_margin_bersama }}%</b></span>
+                                            <span class="small-text mb-0">Investor:
+                                                <b>{{ $project->profit_margin_investor }}%</b></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="d-flex flex-column mt-3 mb-3">
+                                            <span class="small-text mb-2">Terkumpulkan</span>
+                                            <span class="small-text fw-bold mb-2">Rp.
+                                                {{ number_format($project->current_capital, 0, '.', '.') }}</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div><!-- End Service Item -->
                 @endforeach
+            </div>
 
-                <div class="justify-content-center align-items-center text-center">
-                    <a href="{{ route('investment-list') }}" class="btn-get-started scrollto">Lebih Banyak Lagi</a>
-                </div>
+            <div class="justify-content-center align-items-center text-center mt-4">
+                <a href="{{ route('investment-list') }}" class="btn-get-started scrollto">Lebih Banyak Lagi</a>
+            </div>
 
     </section><!-- End Projects Section -->
 
@@ -89,39 +131,41 @@
         <div class="container">
 
             <div class="row gy-4">
-
                 <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out">
                     <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-activity icon"></i></div>
-                        <h4><a href="" class="stretched-link">Lorem Ipsum</a></h4>
-                        <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+                        <div class="icon"><i class="bi bi-eye icon"></i></div>
+                        <h4>Anda Utamanya</h4>
+                        <p>Kami berkomitmen untuk memberikan pengalaman investasi yang transparan, aman, dan menguntungkan
+                            bagi para investor kami.</p>
                     </div>
                 </div><!-- End Service Item -->
 
                 <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="200">
                     <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-bounding-box-circles icon"></i></div>
-                        <h4><a href="" class="stretched-link">Sed ut perspici</a></h4>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+                        <div class="icon"><i class="bi bi-moon icon"></i></div>
+                        <h4>Hukum Syariah</h4>
+                        <p>Dalam melakukan investasi, kami menghindari riba (bunga), praktik haram, dan melakukan bisnis
+                            dengan cara yang adil dan sesuai dengan prinsip syariah.</p>
                     </div>
                 </div><!-- End Service Item -->
 
                 <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="400">
                     <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-calendar4-week icon"></i></div>
-                        <h4><a href="" class="stretched-link">Magni Dolores</a></h4>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
+                        <div class="icon"><i class="bi bi-check2-square icon"></i></div>
+                        <h4>Dibagikan Secara Adil</h4>
+                        <p>Bersama memastikan bahwa semua keuntungan yang dihasilkan dari investasi akan dibagikan secara
+                            adil dan merata.</p>
                     </div>
                 </div><!-- End Service Item -->
 
                 <div class="col-xl-3 col-md-6 d-flex" data-aos="zoom-out" data-aos-delay="600">
                     <div class="service-item position-relative">
-                        <div class="icon"><i class="bi bi-broadcast icon"></i></div>
-                        <h4><a href="" class="stretched-link">Nemo Enim</a></h4>
-                        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+                        <div class="icon"><i class="bi bi-people icon"></i></div>
+                        <h4>Semua Bersama</h4>
+                        <p>Semua keuntungan dan pembagian akan dilakukan secara bersama, tidak ada pihak yang tertinggal.
+                        </p>
                     </div>
                 </div><!-- End Service Item -->
-
             </div>
 
         </div>
@@ -132,9 +176,11 @@
         <div class="container" data-aos="fade-up">
 
             <div class="section-header">
-                <h2>About Us</h2>
-                <p>Architecto nobis eos vel nam quidem vitae temporibus voluptates qui hic deserunt iusto omnis nam voluptas
-                    asperiores sequi tenetur dolores incidunt enim voluptatem magnam cumque fuga.</p>
+                <h2>Tentang Kami</h2>
+                <p>
+                    Bersama memiliki fokus utama pada kepentingan Anda sebagai investor. Kami memastikan bahwa semua
+                    keuntungan yang diperoleh akan dibagikan secara adil dan merata sesuai dengan prinsip-prinsip hukum
+                    syariah.</p>
             </div>
 
             <div class="row g-4 g-lg-5" data-aos="fade-up" data-aos-delay="200">
@@ -146,47 +192,45 @@
                 </div>
 
                 <div class="col-lg-7">
-                    <h3 class="pt-0 pt-lg-5">Neque officiis dolore maiores et exercitationem quae est seda lidera pat claero
+                    <h3 class="pt-0 pt-lg-5">Satu Investasi, Banyak Keuntungan, Bersama Menuju Suksess
                     </h3>
 
-                    <!-- Tabs -->
-                    <ul class="nav nav-pills mb-3">
-                        <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">Saepe fuga</a></li>
-                        <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Voluptates</a></li>
-                        <li><a class="nav-link" data-bs-toggle="pill" href="#tab3">Corrupti</a></li>
-                    </ul><!-- End Tabs -->
 
                     <!-- Tab Content -->
                     <div class="tab-content">
 
                         <div class="tab-pane fade show active" id="tab1">
 
-                            <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus
-                                expedita. Sapiente atque consequatur minima nihil quae aspernatur quo suscipit voluptatem.
+                            <p class="fst-italic">Bersama adalah aplikasi investasi yang menawarkan platform untuk
+                                perusahaan pemasok barang mencari modal dan menjalin hubungan dengan investor, dengan fokus
+                                pada keuntungan yang adil dan mengikuti prinsip-prinsip syariah.
                             </p>
 
                             <div class="d-flex align-items-center mt-4">
                                 <i class="bi bi-check2"></i>
-                                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
+                                <h4>Efisiensi dan Pemperluasan Akses Modal</h4>
                             </div>
-                            <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum
-                                non eveniet magni quaerat nemo et.</p>
+                            <p>Aplikasi "Bersama" memungkinkan PT. Berkah Hasanah Bisa Bersama untuk menghubungkan diri
+                                dengan investor yang tertarik untuk berinvestasi dalam bisnis pemasok barang. Hal ini
+                                memungkinkan perusahaan untuk memperluas akses modal yang diperlukan untuk memenuhi pesanan
+                                pelanggan secara lebih efisien.</p>
 
                             <div class="d-flex align-items-center mt-4">
                                 <i class="bi bi-check2"></i>
-                                <h4>Incidunt non veritatis illum ea ut nisi</h4>
+                                <h4>Peningkatan Efisiensi dan Kecepatan</h4>
                             </div>
-                            <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure
-                                molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora.
-                                Quia et perferendis.</p>
-
+                            <p>Dengan adanya aplikasi ini, PT. Berkah Hasanah Bisa Bersama dapat mempercepat proses
+                                pencarian pemasok yang berkualitas, sehingga memungkinkan perusahaan untuk memenuhi pesanan
+                                pelanggan dengan lebih cepat. Dengan penggunaan aplikasi, proses pembelian bahan dapat
+                                dilakukan dengan efisien dan tepat waktu.</p>
+                            {{-- 
                             <div class="d-flex align-items-center mt-4">
                                 <i class="bi bi-check2"></i>
                                 <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
                             </div>
                             <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam officia aut
                                 ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam odit enim quaerat.
-                                Vero error error voluptatem eum.</p>
+                                Vero error error voluptatem eum.</p>  --}}
 
                         </div><!-- End Tab 1 Content -->
 
@@ -261,7 +305,7 @@
         </div>
     </section><!-- End About Section -->
 
-    <!-- ======= Clients Section ======= -->
+    {{-- <!-- ======= Clients Section ======= -->
     <section id="clients" class="clients">
         <div class="container" data-aos="zoom-out">
 
@@ -287,8 +331,8 @@
             </div>
 
         </div>
-    </section><!-- End Clients Section -->
-
+    </section><!-- End Clients Section --> --}}
+    {{-- 
     <!-- ======= Call To Action Section ======= -->
     <section id="cta" class="cta">
         <div class="container" data-aos="zoom-out">
@@ -312,9 +356,9 @@
             </div>
 
         </div>
-    </section><!-- End Call To Action Section -->
+    </section><!-- End Call To Action Section --> --}}
 
-    <!-- ======= On Focus Section ======= -->
+    {{-- <!-- ======= On Focus Section ======= -->
     <section id="onfocus" class="onfocus">
         <div class="container-fluid p-0" data-aos="fade-up">
 
@@ -346,10 +390,10 @@
             </div>
 
         </div>
-    </section><!-- End On Focus Section -->
+    </section><!-- End On Focus Section --> --}}
 
     <!-- ======= Features Section ======= -->
-    <section id="features" class="features">
+    {{-- <section id="features" class="features">
         <div class="container" data-aos="fade-up">
 
             <ul class="nav nav-tabs row gy-4 d-flex">
@@ -1446,5 +1490,6 @@
             </div>
 
         </div>
-    </section><!-- End Contact Section -->
+    </section><!-- End Contact Section --> --}}
+</section>
 @stop

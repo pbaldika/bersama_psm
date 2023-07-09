@@ -8,8 +8,10 @@ class CreateInvestorsTable extends Migration
 {
     /**
      * Run the migrations.
+     *
+     * @return void
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('investors', function (Blueprint $table) {
             $table->id();
@@ -17,15 +19,17 @@ class CreateInvestorsTable extends Migration
             $table->timestamps();
             $table->string('identity_type')->nullable();
             $table->string('identity_number')->nullable();
-            $table->string('identity_photo')->nullable();
-            $table->string('identity_selfie')->nullable();
+            $table->text('identity_photo')->nullable();
+            $table->text('identity_selfie')->nullable();
         });
     }
 
     /**
      * Reverse the migrations.
+     *
+     * @return void
      */
-    public function down(): void
+    public function down()
     {
         Schema::dropIfExists('investors');
     }

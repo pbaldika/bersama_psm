@@ -20,4 +20,9 @@ class Funding extends Model
         'status',
         'company_registration_number',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(User::class, 'customer_id');
+    }
 }

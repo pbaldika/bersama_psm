@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Investor;
+use App\Models\Investment;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -109,38 +111,4 @@ class InvestorController extends Controller
             return view('frontend.admin.user.user-investment', compact('investment', 'user', 'project', 'imageData'))->with('errorMessage', $errorMessage);
         }
     }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Investor $investor)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Investor $investor)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Investor $investor)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Investor $investor)
-    {
-        //
-    }
-
-
 }

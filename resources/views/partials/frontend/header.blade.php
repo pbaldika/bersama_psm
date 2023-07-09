@@ -16,7 +16,7 @@
                 <div class='row'>
                     @if (Route::has('login'))
                         <div class="col-sm">
-                            <a class="btn-getstarted d-flex" href="{{ route('login') }}">Join Us!</a>
+                            <a class="btn-getstarted d-flex" href="{{ route('login') }}">Bergabunglah!</a>
                         </div>
                     @endif
                     {{-- 

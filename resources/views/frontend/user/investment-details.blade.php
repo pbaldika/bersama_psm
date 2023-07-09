@@ -14,18 +14,24 @@
                 </div>
                 <div class="col-lg-7">
                     <h3 class="pt-0 pt-lg-5">{{ $project->name }}</h3>
-                    <a href="{{ route('place-start', $project->id) }}"><button type="button" class="btn btn-primary">Invest
-                            Now</button></a>
+                    @if ($project->progress_status == 'selesai')
+                        <button type="button" class="btn btn-primary" disabled>Projek Selesai</button>
+                    @elseif ($project->required_capital == $project->current_capital)
+                        <button type="button" class="btn btn-primary" disabled>Investasi Penuh</button>
+                    @else
+                        <a href="{{ route('place-start', $project->id) }}"><button type="button"
+                                class="btn btn-primary">Ajukan Investasi</button></a>
+                    @endif
                     <!-- Tabs -->
                     <ul class="nav nav-pills mb-3">
                         <li><a class="nav-link active" data-bs-toggle="pill" href="#tab1">Ringkasan</a></li>
-                        {{-- <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Tata Cara Berinvestasi</a></li> --}}
+                        <li><a class="nav-link" data-bs-toggle="pill" href="#tab2">Menghitung Keuntungan</a></li>
                     </ul><!-- End Tabs -->
                     <!-- Tab Content -->
                     <div class="tab-content">
-                        <p class="fst-italic">{{ $project->description }}
-                        </p>
-                        <div class="container bg-light mt-4">
+                        <div class="tab-pane container bg-light mt-4 active" id="tab1">
+                            <p class="fst-italic">{{ $project->description }}
+                            </p>
                             @php
                                 $currentCapital = (float) $project->current_capital;
                                 $requiredCapital = (float) $project->required_capital;
@@ -61,53 +67,122 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="tab-pane fade show active" id="tab1">
-                            {{-- <div class="d-flex align-items-center mt-4">
-                                <i class="bi bi-check2"></i>
-                                <h4>Incidunt non veritatis illum ea ut nisi</h4>
-                            </div>
-                            <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure
-                                molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora.
-                                Quia et perferendis.</p>
 
-                            <div class="d-flex align-items-center mt-4">
-                                <i class="bi bi-check2"></i>
-                                <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
-                            </div>
-                            <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam officia aut
-                                ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam odit enim quaerat.
-                                Vero error error voluptatem eum.</p> --}}
-
-                        </div><!-- End Tab 1 Content -->
-                        <div class="tab-pane fade" id="tab2">
-                            <p class="fst-italic">Consequuntur inventore voluptates consequatur aut vel et. Eos doloribus
-                                expedita. Sapiente atque consequatur minima nihil quae aspernatur quo suscipit voluptatem.
+                        <div class="tab-pane container fade show bg-light" id="tab2">
+                            <h3>Cari Tahu Tentang Keuntungan</h3>
+                            <p class="mt-2">Di sini, Anda dapat mengetahui potensi keuntungan dari investasi Anda.
+                                <br><br>Margin dari proyek ini sangat penting untuk Anda pahami! Mari kita letakkan
+                                hipotesis jika proyek ini memiliki keuntungan bersih sebesar 10 juta rupiah dan semua dana
+                                akan terkumpulkan.
                             </p>
-                            <div class="d-flex align-items-center mt-4">
-                                <i class="bi bi-check2"></i>
-                                <h4>Repudiandae rerum velit modi et officia quasi facilis</h4>
-                            </div>
-                            <p>Laborum omnis voluptates voluptas qui sit aliquam blanditiis. Sapiente minima commodi dolorum
-                                non eveniet magni quaerat nemo et.</p>
-                            <div class="d-flex align-items-center mt-4">
-                                <i class="bi bi-check2"></i>
-                                <h4>Incidunt non veritatis illum ea ut nisi</h4>
-                            </div>
-                            <p>Non quod totam minus repellendus autem sint velit. Rerum debitis facere soluta tenetur. Iure
-                                molestiae assumenda sunt qui inventore eligendi voluptates nisi at. Dolorem quo tempora.
-                                Quia et perferendis.</p>
+                            <p>Bagimana cara keuntungan dihitung?</p>
 
-                            <div class="d-flex align-items-center mt-4">
-                                <i class="bi bi-check2"></i>
-                                <h4>Omnis ab quia nemo dignissimos rem eum quos..</h4>
+                            <p>Keuntungan 10 Juta yang didaptkan projek ini akan dibagi berdasarkan margin yang ada. Maka di
+                                projek ini: </p>
+                            @php
+                                $keuntungan_bersama = 10000000 * ($project->profit_margin_bersama / 100);
+                                $keuntungan_investor = 10000000 * ($project->profit_margin_investor / 100);
+                            @endphp
+                            <p><b>Keuntungan Bersama</b>: Rp. 10.000.000 X {{ $project->profit_margin_bersama }}% = Rp.
+                                {{ number_format($keuntungan_bersama, 0, '.', '.') }}</p>
+                            <p><b>Keutungan Semua Investor</b>: Rp. 10.000.000 X {{ $project->profit_margin_investor }} = Rp.
+                                {{ number_format($keuntungan_investor, 0, '.', '.') }}</p>
+
+                            <p>Keuntungan kalian akan dikalkulasi berdasarkan</p>
+                            <p><b>(Investasi Kalian / Dana investasi yang terkumpulkan) X Keuntungan Semua Investor</b></p>
+                            <label>Masukan Jumlah Investasi Kalian</label>
+                            <div class="input-group mt-2">
+                                <span class="input-group-text">Rp.</span>
+                                <input id="total" type="text" onkeyup="formatCurrency(this)"
+                                    onblur="removeSeparators(this)"
+                                    class="form-control @error('total') is-invalid @enderror" name="total">
                             </div>
-                            <p>Eius alias aut cupiditate. Dolor voluptates animi ut blanditiis quos nam. Magnam officia aut
-                                ut alias quo explicabo ullam esse. Sunt magnam et dolorem eaque magnam odit enim quaerat.
-                                Vero error error voluptatem eum.</p>
-                        </div><!-- End Tab 2 Content -->
+
+                            <button type="button" onclick="calculateProfit()"
+                                class="btn btn-primary d-block mx-auto mt-2 mb-2">Hitung</button>
+
+                            <div class="mb-2"id="profitResult" style="display: none;">
+                                <p><b>Keuntungan Anda: <span id="profitValue"></span></b></p>
+                            </div>
+                            {{-- <p><b>Keuntungan kalian</b>: = Rp. {{ number_format($total, 0, '.', '.') }} / Rp. {{ number_format($project->required_capital, 0, '.', '.') }} X {{ number_format($keuntungan_investor, 0, '.', '.') }} </p> --}}
+                        </div><!-- End Tab 1 Content -->
                     </div>
                 </div>
             </div>
+
+            <div name="main" class="row g-4 g-lg-5 mt-5" data-aos="fade-up" data-aos-delay="200">
+                <h3>Tata Cara Investasi</h3>
+                <div class="d-flex align-items-center mt-4">
+                    <i class="bi bi-check2"></i>
+                    <h4> Baca Informasi Proyek</h4>
+                </div>
+                <p>Sebelum mengajukan permohonan investasi, bacalah terlebih dahulu informasi yang tertera,
+                    seperti dana yang diperlukan, dana yang terkumpul, dan margin keuntungan yang diharapkan.
+                </p>
+
+                <div class="d-flex align-items-center mt-4">
+                    <i class="bi bi-check2"></i>
+                    <h4> Ajukan Jumlah Investasi</h4>
+                </div>
+                <img src="{{ url('Image/Foto Ajukan.png') }}" class="mx-auto img-fluid mb-3 bg-primary"
+                    alt="contoh foto identitas" style="width:60%">
+                <p>Jika Anda ingin memulai investasi, klik tombol "Ajukan Investasi". Anda akan diarahkan ke
+                    halaman baru dan diminta untuk memasukkan jumlah uang yang ingin Anda investasikan. Pastikan
+                    jumlah investasi Anda tidak melebihi investasi yang tersedia!</p>
+
+                <div class="d-flex align-items-center mt-4">
+                    <i class="bi bi-check2"></i>
+                    <h4> Unggah Foto Investasi Anda</h4>
+                </div>
+                <img src="{{ url('Image/Foto Verifikasi.png') }}" class="mx-auto img-fluid mb-3 bg-primary"
+                    alt="contoh foto identitas" style="width:60%">
+                <p>Setelah mengajukan investasi, Anda harus mengunggah bukti pembayaran ke akun bank kami. Anda
+                    dapat mengunggah foto slip transfer atau foto transfer melalui m-banking. Investasi Anda
+                    tidak akan diverifikasi jika tidak ada bukti pembayaran!
+                </p>
+
+                <div class="d-flex align-items-center mt-4">
+                    <i class="bi bi-check2"></i>
+                    <h4> Tunggu Hingga Selesai</h4>
+                </div>
+                <p>Setelah investasi Anda diverifikasi, Anda harus menunggu hingga proyek selesai. Setelah
+                    proyek selesai, Anda akan menerima hasil investasi melalui transfer bank.</p>
+
+            </div><!-- End Tab 1 Content -->
+        </div>
         </div>
     </section><!-- End About Section -->
+
+    <script>
+        function formatCurrency(input) {
+            var value = input.value.replace(/\./g, ''); // Remove existing dots
+
+            var formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g,
+                '.'); // Add dots as separators for each group of three digits
+
+            input.value = formattedValue; // Update the input value with the formatted value
+        }
+
+        function removeSeparators(input) {
+            var value = input.value;
+            value = value.replace(/,/g, '');
+            input.value = value;
+        }
+
+        function calculateProfit() {
+            var total = parseFloat(document.getElementById('total').value.replace(/\./g, '').replace(/,/g, '.'));
+            var profitMarginInvestor = parseFloat({{ $project->profit_margin_investor }});
+            var requiredCapital = parseFloat({{ $project->required_capital }});
+            var profitAllInvestor = (profitMarginInvestor / 100) * 10000000;
+            var profitInvestor = (total / requiredCapital) * profitAllInvestor;
+
+            var formattedProfit = new Intl.NumberFormat('id-ID').format(profitInvestor);
+
+            var formattedIntegerPart = formattedProfit.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            var result = 'Rp. ' + formattedIntegerPart;
+
+            document.getElementById('profitValue').textContent = result;
+            document.getElementById('profitResult').style.display = 'block';
+        }
+    </script>
 @stop

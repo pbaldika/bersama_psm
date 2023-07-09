@@ -31,7 +31,7 @@ class CreateNewUser implements CreatesNewUsers
             'telephone'=> ['required', 'string', 'max:30', 'unique:users'],
             'gender'=> ['required', 'string', 'max:20'],
             'address'=> ['required', 'string', 'max:300'],
-            'dob'=> ['required', 'date'],
+            'dob' => ['required', 'date', 'before_or_equal:' . now()->subYears(16)->format('Y-m-d')],
             'password' => $this->passwordRules(),
             'role'=> ['required', 'string', 'max:20'],
         ])->validate();

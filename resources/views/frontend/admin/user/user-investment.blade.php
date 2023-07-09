@@ -59,6 +59,7 @@
                         <form method="post" action="{{ route('admin.investment.verify', $investment) }}">
                             @csrf
                             @method('PUT')
+                            <input type="hidden" name="project_id" id="project_id" value={{ $project->id }}>
                             <button name="status" type="submit" class="btn btn-success btn-lg btn-flat"
                                 value="active">Verifikasi</button>
                             <button name="status" type="submit" class="btn btn-danger btn-lg btn-flat"

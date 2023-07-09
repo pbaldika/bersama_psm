@@ -20,7 +20,7 @@ class CompanyController extends Controller
 
     }
 
-    public function addVerification()
+    public function showVerification()
     {
         return view('frontend.company.upload-registration');
     }

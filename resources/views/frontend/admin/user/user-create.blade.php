@@ -23,6 +23,8 @@
                     @csrf
                     @method('POST')
                     <div class="form-group">
+                        <p><i class="bi bi-exclamation-circle-fill text-danger"></i>
+                            Password User Adalah: <b>qwertyuiop</b></p>
                         <label for="inputName">Nama</label>
                         <input id="inputName" type="text" class="form-control @error('name') is-invalid @enderror"
                             name="name" required autocomplete="name" autofocus>
@@ -42,11 +44,11 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-
                     </div>
                     <div class="form-group">
                         <label for="inputTelephone">Telefon</label>
-                        <input id="telephone" type="text" class="form-control" name="telephone" required>
+                        <input id="telephone" type="text" class="form-control @error('telephone') is-invalid @enderror"
+                            name="telephone" required>
 
                         @error('telephone')
                             <span class="invalid-feedback" role="alert">
@@ -56,33 +58,34 @@
                     </div>
                     <div class="form-group">
                         <label for="inputGender">Jenis Kelamin</label>
-                        <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="gender" required>
+                        <select class="form-control @error('gender') is-invalid @enderror" name="gender" id="gender"
+                            required>
                             <option selected disabled>Pilih Salah Satu</option>
                             <option value="Laki-Laki">Laki-Laki</option>
                             <option value="Perempuan">Perempuan</option>
                             <option value="N/A">Memilih untuk tidak mengatakan</option>
-
-                            @error('gender')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </select>
+
+                        @error('gender')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                     <div class="form-group">
-                        <label for="inputAdress">Alamat</label>
-                        <textarea type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror" required></textarea>
+                        <label for="inputAddress">Alamat</label>
+                        <textarea id="address" name="address" class="form-control @error('address') is-invalid @enderror" required></textarea>
 
                         @error('address')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
-                                <span>
-                                @enderror
+                            </span>
+                        @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="inputProjectLeader">Tanggal Lahir</label>
-                        <input id="dob" type="date" class="form-control" name="dob" required>
+                        <label for="inputDob">Tanggal Lahir</label>
+                        <input id="dob" type="date" class="form-control @error('dob') is-invalid @enderror"
+                            name="dob" required>
 
                         @error('dob')
                             <span class="invalid-feedback" role="alert">
@@ -90,28 +93,48 @@
                             </span>
                         @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="inputStatus">Peran</label>
-                        <select id="inputStatus" name="role" class="form-control custom-select">
+                        <label for="inputRole">Peran</label>
+                        <select id="role" name="role" class="form-control custom-select" required>
                             <option selected disabled>Pilih Salah Satu</option>
                             <option value="user">Investor</option>
                             <option value="company">Company</option>
                             <option value="admin">Admin</option>
                         </select>
+
                         @error('role')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
                     </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form2Example11">Password</label>
+
+                        <input type="text" id="password" name="password"
+                            class="form-control @error('password') is-invalid @enderror" placeholder="Password" required
+                            autocomplete="new-password" value="qwertyuiop" disabled/>
+
+                        @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label" for="form2Example11">Konfirmasi Password</label>
+
+                        <input type="text" id="password-confirm" name="password_confirmation" class="form-control"`
+                            placeholder="Confirm Password" required autocomplete="new-password" value="qwertyuiop" disabled/>
+                    </div>
+
+                    <input id="verified" type="hidden" name="verified" value="belum">
+                    <input type="submit" value="Buat Akun" class="btn btn-success float-right">
+                </form>
+
             </div>
-
-            <input id="verified" type="hidden" name="verified" value="belum">
-
-
-            <input type="submit" value="Buat Akun" class="btn btn-success float-right">
-            </form>
             <!-- /.card-body -->
         </div>
         </div>

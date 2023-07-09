@@ -9,14 +9,12 @@
             </ul>
           </li> -->
 
-    <li><a class="nav-link scrollto" href="{{ route('landing') }}#homepage">Homepage</a></li>
+    <li><a class="nav-link scrollto" href="{{ route('landing') }}#beranda">Beranda</a></li>
     <li><a class="nav-link scrollto" href="{{ route('investment-list') }}#projects">Projek</a></li>
     <li><a class="nav-link scrollto" href="{{ route('investment-made') }}#portofolio">Portofolio</a></li>
-    <li><a class="nav-link scrollto" href="index.html#services">Services</a></li>
-    <li><a class="nav-link scrollto" href="index.html#portfolio">Portfolio</a></li>
-    <li><a class="nav-link scrollto" href="index.html#team">Team</a></li>
+    <li><a class="nav-link scrollto" href="index.html#services">Tentang Kami</a></li>
     <li><a href="blog.html">Blog</a></li>
-    <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
+    {{-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
                 class="bi bi-chevron-down dropdown-indicator"></i></a>
         <ul>
             <li>
@@ -59,8 +57,8 @@
             <li><a href="#">Drop Down 3</a></li>
             <li><a href="#">Drop Down 4</a></li>
         </ul>
-    </li>
-    <li><a class="nav-link scrollto" href="index.html#contact">Contact</a></li>
+    </li> --}}
+    <li><a class="nav-link scrollto" href="index.html#contact">Kontak Kami</a></li>
 </ul>
 <i class="bi bi-list mobile-nav-toggle d-none"></i>
 </ul>

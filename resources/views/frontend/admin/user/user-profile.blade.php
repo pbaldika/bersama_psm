@@ -1,5 +1,10 @@
 @extends('layouts.admin')
 @section('content')
+@if (session('message'))
+        <h6 class="alert alert-success">
+            {{ session('message') }}
+        </h6>
+    @endif
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -98,7 +103,7 @@
                                 @elseif ($user->verified == 'tolak')
                                     Verikasi Ditolak, Tunggu User Verifikasi Ulang<br>
                                 @else
-                                Tidak Ada note.
+                                    Tidak Ada note.
                                 @endif
                             </p>
                         </div>
@@ -274,12 +279,16 @@
                                 <!-- /.tab-pane -->
 
                                 <div class="tab-pane" id="details">
-                                    <form class="form-horizontal">
+                                    <form class="form-horizontal" method="POST"
+                                        action="{{ route('admin.user.update', $user) }}">
+                                        @csrf
+                                        @method('PUT')
                                         <div class="form-group row">
                                             <label for="inputName" class="col-sm-2 col-form-label">Nama</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="name" name="name"
-                                                    placeholder="Nama" value="{{ $user->name }}">
+                                                <input type="text"
+                                                    class="form-control @error('name') is-invalid @enderror" id="name"
+                                                    name="name" placeholder="Nama" value="{{ $user->name }}">
                                                 @error('name')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -290,8 +299,10 @@
                                         <div class="form-group row">
                                             <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                             <div class="col-sm-10" value="{{ $user->email }}">
-                                                <input type="email" class="form-control" id="email" name="email"
-                                                    placeholder="Email" value="{{ $user->email }}">
+                                                <input type="email"
+                                                    class="form-control @error('email') is-invalid @enderror"
+                                                    id="email" name="email" placeholder="Email"
+                                                    value="{{ $user->email }}">
                                                 @error('email')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -302,8 +313,9 @@
                                         <div class="form-group row">
                                             <label for="inputName2" class="col-sm-2 col-form-label">Telefon</label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="telephone"
-                                                    name="telephone" placeholder="Telefon"
+                                                <input type="text"
+                                                    class="form-control @error('telephone') is-invalid @enderror"
+                                                    id="telephone" name="telephone" placeholder="Telefon"
                                                     value="{{ $user->telephone }}">
                                                 @error('telephone')
                                                     <span class="invalid-feedback" role="alert">
@@ -339,7 +351,8 @@
                                         <div class="form-group row">
                                             <label for="inputExperience" class="col-sm-2 col-form-label">Alamat</label>
                                             <div class="col-sm-10">
-                                                <textarea class="form-control" id="adress" name="adress" placeholder="Alamat">{{ $user->address }}</textarea>
+                                                <textarea class="form-control @error('gender') is-invalid @enderror" id="adress" name="adress"
+                                                    placeholder="Alamat">{{ $user->address }}</textarea>
                                                 @error('address')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -351,8 +364,9 @@
                                             <label for="inputProjectLeader" class="col-sm-2 col-form-label">Tanggal
                                                 Lahir</label>
                                             <div class="col-sm-10">
-                                                <input id="dob" type="date" class="form-control" name="dob"
-                                                    required>
+                                                <input id="dob" type="date"
+                                                    class="form-control @error('dob') is-invalid @enderror" name="dob"
+                                                    required value="{{ $user->dob }}">
 
                                                 @error('dob')
                                                     <span class="invalid-feedback" role="alert">
@@ -361,7 +375,8 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                        <script>
+
+                                        {{-- <script>
                                             // Assuming you have a variable called 'dobValue' containing the date of birth from the database
                                             var dobValue = '{{ $user->dob }}';
 
@@ -376,7 +391,8 @@
                                                 // Set the 'formattedDate' as the value of the input field
                                                 document.getElementById('dob').value = formattedDate;
                                             }
-                                        </script>
+                                        </script> --}}
+
 
                                         <div class="form-group row">
                                             <label for="inputGender" class="col-sm-2 col-form-label">Peran</label>
@@ -395,11 +411,26 @@
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <input type="hidden" id="password" name="password"
+                                            class="form-control @error('password') is-invalid @enderror"
+                                            value="{{ old('password') ?: $user->password }}" />
+
+                                        @error('password')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+
+                                        {{-- <input id="verified" type="hidden" name="verified" value="{{ $user->verified }}" > --}}
+
+
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">
-                                                <button type="submit" class="btn btn-success">Perbarui Akun User</button>
+                                                <button type="submit" class="btn btn-success">Perbarui Akun
+                                                    User</button>
                                             </div>
-                                        </div>
+
                                     </form>
                                 </div>
                                 <!-- /.tab-pane -->

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
             $table->string('registration_type')->nullable();
-            $table->string('registration_photo')->nullable();
+            $table->text('registration_photo')->nullable();
             $table->string('registration_number')->nullable();
         });
     }

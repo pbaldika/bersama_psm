@@ -21,4 +21,14 @@ class Project extends Model
         'profit_margin_investor',
         'profit',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function investments()
+    {
+        return $this->hasMany(Investment::class);
+    }
 }

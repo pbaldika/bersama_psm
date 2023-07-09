@@ -34,7 +34,6 @@
                                                     </span>
                                                 @enderror
                                             </div>
-
                                         </div>
 
                                         <div class="form-outline mb-4">
@@ -64,6 +63,22 @@
                                         </div>
 
                                         <div class="form-outline mb-4">
+                                            <label class="form-label" for="form2Example11">Jenis Akun</label>
+                                            <select class="form-select @error('role') is-invalid @enderror" name="role"
+                                                id="role">
+                                                <option selected disabled>Pilih Salah Satu</option>
+                                                <option value="user">Investor</option>
+                                                <option value="company">Perusahaan</option>
+
+                                                @error('role')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </select>
+                                        </div>
+
+                                        <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example11">Jenis Kelamin</label>
                                             <select class="form-select @error('gender') is-invalid @enderror" name="gender"
                                                 id="gender">
@@ -84,14 +99,14 @@
                                         <div class="form-outline mb-4">
                                             <label class="form-label" for="form2Example11">Alamat</label>
 
-                                            <textarea type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror" required>
-                                            </textarea>
+                                            <textarea type="text" id="address" name="address" class="form-control @error('address') is-invalid @enderror"
+                                                required></textarea>
 
                                             @error('address')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
-                                                    <span>
-                                                    @enderror
+                                                </span>
+                                            @enderror
                                         </div>
 
                                         <div class="form-outline mb-4" id='datetimepicker3'>
@@ -130,8 +145,6 @@
                                                 autocomplete="new-password" />
                                         </div>
 
-                                        <input id="role" type="hidden" class="form-control" name="role"
-                                            value="user">
                                         <input id="verified" type="hidden" name="verified" value="belum">
 
                                         <div class="text-center mt-2 pt-1 mb-5 pb-1">
