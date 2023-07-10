@@ -17,4 +17,24 @@ class Investment extends Model
         'user_id',
         'project_id',
     ];
+
+    protected $dates = [
+        'payment_deadline',
+    ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function invoice()
+    {
+        return $this->hasOne(Invoice::class);
+    }
+
 }

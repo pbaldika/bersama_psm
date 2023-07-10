@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Project;
+use App\Models\User;
+use App\Models\Company;
 
 class HomeController extends Controller
 {
@@ -22,27 +23,16 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
-    }
-    public function indexVerified()
-    {
-        return view('welcome1');
-    }
-    public function investmentList()
-    {
-        $projects = Project::paginate(12);
-        return view('frontend.user.investment-list', ['projects' => $projects]);
-    }
-    public function investmentDetails(Project $project)
-    {
-        $project = Project::findOrFail($project->id);
-        return view('frontend.user.investment-details', ['project' => $project]);
-    }
+
     public function placeInvestmentshow(Project $project)
     {
-        $project = Project::findOrFail($project->id);
+        $project = Project::findOrFail($project->id); // Retrieve the project by ID
+        // $companyId = $project->company_id; // Get the company ID from the project
+
+        // $company = Company::findOrFail($companyId); // Retrieve the company by ID
+        // $userId = $company->user_id;
+
+        // $company = User::findOrFail($userId);
         return view('frontend.user.place-investment', ['project' => $project]);
     }
 }

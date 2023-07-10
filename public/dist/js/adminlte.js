@@ -3067,3 +3067,37 @@
 
 }));
 //# sourceMappingURL=adminlte.js.map
+function formatCurrency(input) {
+  var value = input.value.replace(/\D/g, '');
+  value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  input.value = value;
+}
+
+function removeSeparators(input) {
+  var value = input.value.replace(/\D/g, '');
+  input.value = value;
+}
+
+function updateMargins(id, value) {
+  value = parseInt(value);
+  var bersamaInput = document.getElementById('profit_margin_bersama');
+  var investorInput = document.getElementById('profit_margin_investor');
+
+  if (!isNaN(value)) {
+      if (id === 'profit_margin_bersama') {
+          if (value > 100) {
+              value = 100;
+          }
+          investorInput.value = 100 - value;
+      } else if (id === 'profit_margin_investor') {
+          if (value > 100) {
+              value = 100;
+          }
+          bersamaInput.value = 100 - value;
+      }
+  }
+}
+document.getElementById('status-filter').addEventListener('change', function() {
+  // Trigger form submission when the status filter changes
+  document.getElementById('project-filter-form').submit();
+});
