@@ -18,9 +18,9 @@ class AdminVerify
     {
         if (Auth::check() && Auth::user()->verified == 'verified')  {
             return $next($request);
-          } else{
-            return redirect()->back()->with('message', 'Please Verify Yourself first');
+          } else if (Auth::check() && Auth::user()->verified == 'request')  {
+            return redirect()->back()->with('message', 'Mohon Tunggu Hingga Verifikasi Selesai! Akun Anda Masih Dalam Proses Verifikasi');
           }
-        // return $next($request);
+        return $next($request);
     }
 }

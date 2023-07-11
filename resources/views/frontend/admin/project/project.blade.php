@@ -134,10 +134,11 @@
 
                     <div class="d-flex justify-content-center mt-3">
                         <p> Halaman : {{ $projects->currentPage() }}</p> <br><br>
-                    </div>
-                    <div class="d-flex justify-content-center">
                         {{ $projects->links() }}
                     </div>
+                    
+                       
+                    
                 </div>
             </div>
             <!-- /.card-body -->

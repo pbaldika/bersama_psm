@@ -19,7 +19,7 @@ class CreateFundingsTable extends Migration
             $table->double('fund_required')->nullable();
             $table->date('start_date');
             $table->date('end_date');
-            $table->foreignId('customer_id')->constrained('users');
+            $table->foreignId('user_id')->constrained('users');
             $table->string('customerName');
             $table->string('customerOrder');
             $table->text('description'); // Changed to 'text' type to allow multiple paragraphs

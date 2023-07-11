@@ -11,14 +11,15 @@
                                 <div class="card-body p-md-5 mx-md-4">
 
                                     <div class="text-center">
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/lotus.webp"
-                                            style="width: 185px;" alt="logo">
+                                        <img src="{{asset('Image/logo.png')}}"
+                                            style="height: 4cm;" alt="logo">
                                         <h4 class="mt-1 mb-1">Bersama</h4>
                                         <p class="mb-4">Bekerja bersama, maju bersama</p>
                                     </div>
 
                                     <form method="POST" action="{{ route('register') }}">
                                         @csrf
+                                        <h3 class="text-center"><b>Registrasi</b></h3>
                                         <p>Mohon isi informasi personal anda untuk register</p>
 
                                         <div class="form row  mb-4">
@@ -150,7 +151,6 @@
                                         <div class="text-center mt-2 pt-1 mb-5 pb-1">
                                             <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
                                                 type="submit">{{ __('Register') }}</button>
-                                            <br>
                                             <br>
                                             <p>Sudah Daftar? <br> <a class="text-muted" href="{{ route('login') }}">Masuk
                                                     disini</a></p>

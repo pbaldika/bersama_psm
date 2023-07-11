@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Funding;
 use App\Models\User;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminFundingController extends Controller
 {
@@ -40,13 +42,10 @@ class AdminFundingController extends Controller
 
     public function details(Funding $funding)
     {
-        $funding = Funding::findOrFail($funding->id);
-        $user = User::findOrFail($funding->customer_id);
-
         try {
             $funding = Funding::findOrFail($funding->id);
-            $user = User::findOrFail($funding->customer_id);
-            $filePath = storage_path('app/private/payment/' . $funding->order_photo);
+            $user = User::findOrFail($funding->user_id);
+            $filePath = storage_path('app/private/order/' . $funding->order_photo);
 
             // Check if the file exists
             if (file_exists($filePath)) {
@@ -54,7 +53,8 @@ class AdminFundingController extends Controller
                 $fileContents = file_get_contents($filePath);
                 $imageData = null;
                 // Return a view to display the image
-                return view('frontend.admin.funding.funding-details', compact('funding', 'user'))->with('imageData', base64_encode($fileContents));
+                return view('frontend.admin.funding.funding-details', compact('funding', 'user'))
+                    ->with('imageData', base64_encode($fileContents));
             } elseif ($funding->order_photo == null) {
                 $imageData = null;
                 // File not found
@@ -69,13 +69,34 @@ class AdminFundingController extends Controller
         }
     }
 
+
     public function verify(Funding $funding, Request $input)
     {
         $funding->update([
             'status' => $input['status'],
         ]);
 
-        return redirect()->back()->with('message', "Status Verifikasi Order telah Diperbarui!");
-    }
+        if ($funding->order_photo != null) {
 
+            $sourcePath = storage_path('app/private/verification/investor/identity_photo/' . $funding->order_photo);
+            $destinationPath = public_path('pro');
+            Storage::copy($sourcePath, $destinationPath);
+
+        }
+
+        Project::create([
+            'name' => $funding->fundName,
+            'description' => $funding->description,
+            'required_capital' => $funding->fund_required,
+            'progress_status' => 'aktif',
+            'project_photo' => $funding->order_photo,
+            'company_id' => $funding->user_id,
+            'profit_margin_bersama' => $funding->profit_margin_user,
+            'profit_margin_investor' => $funding->profit_margin_user,
+            'profit' => null,
+        ]);
+
+
+        return redirect()->back()->with('message', "Status Verifikasi Funding telah Diperbarui! Projek Telah Ditambahkan!");
+    }
 }

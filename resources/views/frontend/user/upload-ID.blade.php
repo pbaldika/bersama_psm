@@ -13,12 +13,12 @@
             @endif
 
             <div class="section-header">
-                <h2>Upload Foto Identitas Kamu</h2>
+                <h2>Verifikasi Identitas</h2>
                 <p>Kamu harus mengupload foto identitas kamu dan dengan diri sendiri agar dapat menggunakan Bersama secara
-                    penuh.</p>
+                    penuh. Mohon Upload foto identitas kalian dan foto selfie bersama identitas kalian.</p>
             </div>
 
-            @if (Auth::user()->verified == null)
+            @if (Auth::user()->verified == "belum")
                 <div class="container">
                     <form method="post" action="{{ route('verification-upload') }}" enctype="multipart/form-data">
                         @csrf
@@ -42,7 +42,7 @@
 
                             <div class="col-md-6 form-outline mb-3">
                                 <label class="form-label">Nomor Identitas</label>
-                                <input type="text" class="form-control" required name="identity_number">
+                                <input type="text" class="form-control @error('identity_number') is-invalid @enderror" required name="identity_number">
                                 @error('identity_number')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -54,7 +54,7 @@
                                 <label class="form-label">Upload Foto Identitas</label>
                                 <img src="{{ url('Image/contoh ktp.png') }}" class="mx-auto img-fluid mb-3"
                                     alt="contoh foto identitas" style="height:80%">
-                                <input type="file" class="form-control" required name="identity_photo">
+                                <input type="file" class="form-control @error('identity_photo') is-invalid @enderror" required name="identity_photo">
 
                                 @error('identity_photo')
                                     <span class="invalid-feedback" role="alert">
@@ -67,7 +67,7 @@
                                 <label class="form-label">Upload Foto Selfie</label>
                                 <img src="{{ url('Image/contoh selfie ktp.png') }}" class="mx-auto img-fluid mb-3"
                                     alt="contoh foto identitas" style="height:80%">
-                                <input type="file" class="form-control" required name="identity_selfie">
+                                <input type="file" class="form-control @error('identity_selfie') is-invalid @enderror" required name="identity_selfie">
 
                                 @error('identity_selfie')
                                     <span class="invalid-feedback" role="alert">
@@ -87,7 +87,7 @@
             @elseif (Auth::user()->verified == 'request')
                 <div class="container">
                     <h6 class="alert alert-primary">
-                        Verifikasi anda sedang berjalan, mohon tunggu sampai kamu terverifikasi.
+                        Verifikasi anda sedang berjalan, mohon tunggu sampai verifikasi selesai.
                     </h6>
                 </div>
             @elseif (Auth::user()->verified == 'verified')
@@ -126,7 +126,7 @@
 
                             <div class="col-md-6 form-outline mb-3">
                                 <label class="form-label">Nomor Identitas</label>
-                                <input type="text" class="form-control" required name="identity_number">
+                                <input type="text" class="form-control @error('identity_number') is-invalid @enderror" required name="identity_number">
                                 @error('identity_number')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -138,7 +138,7 @@
                                 <label class="form-label">Upload Foto Identitas</label>
                                 <img src="{{ url('Image/contoh ktp.png') }}" class="mx-auto img-fluid mb-3"
                                     alt="contoh foto identitas" style="height:80%">
-                                <input type="file" class="form-control" required name="identity_photo">
+                                <input type="file" class="form-control @error('identity_photo') is-invalid @enderror" required name="identity_photo">
 
                                 @error('identity_photo')
                                     <span class="invalid-feedback" role="alert">
@@ -151,7 +151,7 @@
                                 <label class="form-label">Upload Foto Selfie</label>
                                 <img src="{{ url('Image/contoh selfie ktp.png') }}" class="mx-auto img-fluid mb-3"
                                     alt="contoh foto identitas" style="height:80%">
-                                <input type="file" class="form-control" required name="identity_selfie">
+                                <input type="file" class="form-control @error('identity_selfie') is-invalid @enderror" required name="identity_selfie">
 
                                 @error('identity_selfie')
                                     <span class="invalid-feedback" role="alert">

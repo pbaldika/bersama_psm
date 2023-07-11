@@ -28,17 +28,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     |--------------------------------------------------------------------------
     */
     Route::get('/update', [UserController::class, 'update'])->name('update');
-    Route::get('/upload-verification', [UserController::class, 'addVerification'])->name('verification-add');
-    Route::put('/store-verification', [InvestorController::class, 'storeVerification'])->name('verification-upload');
-    Route::get('/{project}/place-investment', [HomeController::class, 'placeInvestmentShow'])->name('place-start');
-    Route::post('/{project}/place-investment', [InvestmentController::class, 'create'])->name('place-investment');
     Route::get('/investment-made', [InvestmentController::class, 'investmentList'])->name('investment-made');
-    Route::get('/{investment}/upload-proof', [InvestmentController::class, 'addPhoto'])->name('proof-add');
-    Route::put('/{investment}/store-proof', [InvestmentController::class, 'uploadPhoto'])->name('proof-upload');
-    Route::get('/get-proof', [InvestmentController::class, 'viewPhoto'])->name('proof-view');
-    Route::get('/{investment}/user-invoice', [InvestmentController::class, 'invoice'])->name('invoice');
-    Route::get('/{investment}/generate-invoice', [InvestmentController::class, 'generate'])->name('generate-invoice');
-    Route::get('/{investment}/print-invoice', [InvestmentController::class, 'print'])->name('print-invoice');
+    Route::get('/upload-verification', [InvestorController::class, 'showVerification'])->name('verification-add');
+    Route::put('/store-verification', [InvestorController::class, 'storeVerification'])->name('verification-upload');
+
+    // Route only for verified user
+    Route::middleware(['AdminVerify'])->group(function () {
+        Route::get('/{project}/place-investment', [HomeController::class, 'placeInvestmentShow'])->name('place-start');
+        Route::post('/{project}/place-investment', [InvestmentController::class, 'create'])->name('place-investment');
+        Route::get('/{investment}/upload-proof', [InvestmentController::class, 'addPhoto'])->name('proof-add');
+        Route::put('/{investment}/store-proof', [InvestmentController::class, 'uploadPhoto'])->name('proof-upload');
+        Route::get('/{investment}/user-invoice', [InvestmentController::class, 'invoice'])->name('invoice');
+        Route::get('/{investment}/generate-invoice', [InvestmentController::class, 'generate'])->name('generate-invoice');
+        Route::get('/{investment}/print-invoice', [InvestmentController::class, 'print'])->name('print-invoice');
+    });
 
 
     /*
@@ -63,7 +66,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             // Route::get('/{user}/update', [AdminUserController::class, 'showUpdate'])->name('admin.user.show-update');
             Route::put('/{user}/update', [AdminUserController::class, 'update'])->name('admin.user.update');
             Route::delete('/{user}/delete', [AdminUserController::class, 'selete'])->name('admin.user.delete');
-            Route::get('/{user}/verify', [AdminUserController::class, 'verify'])->name('admin.user.show-verify');
+            Route::get('/{user}/verify', [AdminUserController::class, 'showVerify'])->name('admin.user.show-verify');
             Route::get('/{user}/comp-verify', [AdminCompanyController::class, 'showVerify'])->name('admin.user.show-verify-comp');
             Route::put('/{user}/verify', [AdminCompanyController::class, 'verify'])->name('admin.user.verify');
 
@@ -116,9 +119,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
             return view('frontend.company.welcome');
         });
 
-        Route::get('/funding', [FundingController::class, 'create'])->name('funding');
-        Route::post('/funding', [FundingController::class, 'createFunding'])->name('create-funding');
         Route::get('/upload-verification-comp', [CompanyController::class, 'showVerification'])->name('verification-add-comp');
         Route::put('/store-verification-comp', [CompanyController::class, 'storeVerification'])->name('verification-upload-comp');
+
+        Route::middleware(['AdminVerify'])->group(function () {
+
+            Route::get('/funding', [FundingController::class, 'create'])->name('funding');
+            Route::post('/funding', [FundingController::class, 'createFunding'])->name('create-funding');
+            Route::get('/view-funding-list', [FundingController::class, 'fundingList'])->name('funding-list');
+        });
     });
 });

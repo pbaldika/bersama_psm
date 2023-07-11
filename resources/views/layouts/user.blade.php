@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link rel="icon" href="{{asset('Image/logo.png')}}">
 
     <title>Bersama</title>
     <meta content="" name="description">
@@ -63,10 +64,10 @@
         </div>
     </main><!-- End #main -->
 
-    <!-- ======= Footer ======= -->
+    {{-- <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         @include('partials.frontend.footer')
-    </footer><!-- End Footer -->
+    </footer><!-- End Footer --> --}}
 
     <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

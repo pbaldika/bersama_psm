@@ -77,43 +77,54 @@ class InvestmentController extends Controller
 
     public function uploadPhoto(Investment $investment, Request $request)
     {
-        // $request->validate([
-        //     'identity_photo' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        //     'identity_selfie' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        //     'identity_number' => 'required',
-        //     'identity_type' => 'required',
-        // ]);
-
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'bank_account_number' => 'nullable|numeric',
+        ], [
+            'image.required' => 'Foto Identitas wajib diunggah.',
+            'image.image' => 'File yang diunggah harus berupa gambar.',
+            'image.mimes' => 'Format file yang diizinkan adalah PNG, JPG, atau JPEG.',
+            'image.max' => 'Ukuran file tidak boleh melebihi 2048 kb (2 mb).',
+            'bank_account_number.numeric' => 'Nomor akun bank harus berupa angka.',
+        ]);
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        $user = Auth::user();
+        if ($request->filled('bank_account_number')) {
+            $user->bank_account_number = $request->bank_account_number;
+        }
+        $user->save();
+    
         if ($request->hasFile('image')) {
             $IDPhoto = $request->file('image');
-
             $filename = date('YmdHi') . '_' . $IDPhoto->getClientOriginalName();
-
-            // Store the new images
+    
+            // Store the new image
             $IDPhoto->storeAs('private/payment/', $filename);
-
+    
             $data = [
                 'payment_proof' => $filename,
             ];
-
-            $investment = Investment::where('id', $investment->id)->first();
-
+    
             if ($investment) {
-                // Delete old images
-                $oldImage = $investment->image;
-
+                // Delete old image
+                $oldImage = $investment->payment_proof;
                 if ($oldImage && Storage::exists('private/payment/' . $oldImage)) {
                     Storage::delete('private/payment/' . $oldImage);
                 }
-
+    
                 $investment->update($data);
             } else {
-                $investment->update($data);
+                $investment->create($data);
             }
         }
-
+    
         return back()->with('message', "Verifikasi Sedang Dalam Proses!");
     }
+    
 
     public function investmentList()
     {
