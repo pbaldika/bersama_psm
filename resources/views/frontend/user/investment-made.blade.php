@@ -14,68 +14,6 @@
                         <h3 class="text-center mt-2">Investasi Yang Telah Diajukan</h3>
                     </div>
 
-
-                    <div class="container">
-                        <h1>Dashboard Investasi</h1>
-                        <div class="accordion" id="investmentAccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="investmentSummaryHeading">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#investmentSummaryCollapse" aria-expanded="true"
-                                        aria-controls="investmentSummaryCollapse">
-                                        Ringkasan Investasi
-                                    </button>
-                                </h2>
-                                <div id="investmentSummaryCollapse" class="accordion-collapse collapse show"
-                                    aria-labelledby="investmentSummaryHeading" data-bs-parent="#investmentAccordion">
-                                    <div class="accordion-body">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <h5>Jumlah Investasi: {{ $investmentCount }}</h5>
-                                                <h5>Total Investasi: Rp{{ number_format($totalInvestment, 0, ',', '.') }}</h5>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <h5>Total Keuntungan: Rp{{ number_format($totalProfit, 0, ',', '.') }}</h5>
-                                                <canvas id="investmentChart"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <!-- Chart.js Library -->
-                    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.bundle.min.js"></script>
-                    <script>
-                        document.addEventListener('DOMContentLoaded', function () {
-                            var investmentChart = new Chart(document.getElementById('investmentChart'), {
-                                type: 'bar',
-                                data: {
-                                    labels: ['Total Investment', 'Total Profit'],
-                                    datasets: [{
-                                        label: 'Investment Information',
-                                        data: [{{ $totalInvestment }}, {{ $totalProfit }}],
-                                        backgroundColor: [
-                                            'rgba(75, 192, 192, 0.5)',
-                                            'rgba(153, 102, 255, 0.5)'
-                                        ],
-                                        borderColor: [
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)'
-                                        ],
-                                        borderWidth: 1
-                                    }]
-                                },
-                                options: {
-                                    scales: {
-                                        y: {
-                                            beginAtZero: true
-                                        }
-                                    }
-                                }
-                            });
-                        });
-                    </script>
-
                     @if (isset($investment))
                         <h3 class="text-center">Ayok Mulai Berinvestasi! Mari Kita Maju Bersama</h3>
                     @else

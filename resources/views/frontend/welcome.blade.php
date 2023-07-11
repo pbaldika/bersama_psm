@@ -6,30 +6,30 @@
             data-aos="zoom-out">
             @Auth
                 @if (Auth::user()->role == 'user')
-                    @if (Auth::user()->verified == null)
-                        <div class="container">
-                            <p>Akun kamu belum di ter-verifikasi secara optimal! Ayok upload foto Identitas Kamu supaya kamu
-                                bisa
-                                akses semua feature.
+                    @if (Auth::user()->verified == "belum")
+                        <div class="container mb-2">
+                            <p>Akun Anda belum di terverifikasi secara optimal! Ayok upload foto Identitas Anda supaya Anda
+                                dapat
+                                mengakses semua feature.
                             <p>
-                                <a href="{{ route('verification-add') }}" class="btn-get-started scrollto">Verify Akun Kamu!</a>
+                                <a href="{{ route('verification-add') }}" class="btn-get-started scrollto">Verifikasi Akun Kamu!</a>
                         </div>
                     @elseif (Auth::user()->verified == 'tolak')
                         <div class="container">
                             <p class="alert alert-danger">Verifikasi akun kamu ditolak! Mohon untuk meng-upload ulang verifikasi!
                             <p>
-                                <a href="{{ route('verification-add') }}" class="btn-get-started scrollto">Verify Ulang!</a>
+                                <a href="{{ route('verification-add') }}" class="btn-get-started scrollto">Verikasi Ulang!</a>
                         </div>
                     @endif
                 @endif
                 @if (Auth::user()->role == 'company')
                     @if (Auth::user()->verified == null)
-                        <div class="container">
+                        <div class="container mt-2">
                             <p>Akun kamu belum di ter-verifikasi secara optimal! Ayok upload foto Identitas Kamu supaya kamu
                                 bisa
                                 akses semua feature.
                             <p>
-                                <a href="{{ route('verification-add-comp') }}" class="btn-get-started scrollto">Verify Akun
+                                <a href="{{ route('verification-add-comp') }}" class="btn-get-started scrollto">Verifikasi Akun
                                     Kamu!</a>
                         </div>
                     @elseif (Auth::user()->verified == 'tolak')
@@ -43,7 +43,7 @@
                     @endif
                 @endif
             @endauth
-            <img src="assets/img/hero-carousel/hero-carousel-3.svg" class="img-fluid animated">
+            <img src="assets/img/hero-carousel/hero-carousel-3.svg" class="img-fluid">
             <h2>Tumbuh Finansial secara Hasanah Dengan Kami<br><span>Bersama</span></h2>
             <p>Mari bekerja sama dengan Bersama untuk menumbuhkan investasi kalian dengan cara Islami. Tanpa Riba dan
                 Kerugian.</p>

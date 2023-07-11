@@ -19,13 +19,6 @@
                             <a class="btn-getstarted d-flex" href="{{ route('login') }}">Bergabunglah!</a>
                         </div>
                     @endif
-                    {{-- 
-                    @if (Route::has('register'))
-                        <div class="col-sm">
-                            <a class="btn-getstarted d-flex" href="{{ route('register') }}">register</a>
-                        </div>
-                </div>
-                @endif --}}
                 @else
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
@@ -38,6 +31,10 @@
                                 onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                 {{ __('Logout') }}
+                            </a>
+
+                            <a class="dropdown-item" href="{{ route('update') }}">
+                                {{ __('Profile User') }}
                             </a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class InvestorController extends Controller
 {
@@ -23,19 +24,35 @@ class InvestorController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function showVerification()
     {
-        //
+        return view('frontend.user.upload-ID');
     }
 
     public function storeVerification(Request $request)
     {
-        // $request->validate([
-        //     'identity_photo' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        //     'identity_selfie' => 'required|image|mimes:png,jpg,jpeg|max:2048',
-        //     'identity_number' => 'required',
-        //     'identity_type' => 'required',
-        // ]);
+        $validator = Validator::make($request->all(), [
+            'identity_photo' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'identity_selfie' => 'required|image|mimes:png,jpg,jpeg|max:2048',
+            'identity_type' => 'required|in:ktp,paspor',
+            'identity_number' => 'required',
+        ], [
+            'identity_photo.required' => 'Foto Identitas wajib diunggah.',
+            'identity_photo.image' => 'File yang diunggah harus berupa gambar.',
+            'identity_photo.mimes' => 'Format file yang diizinkan adalah PNG, JPG, atau JPEG.',
+            'identity_photo.max' => 'Ukuran file tidak boleh melebihi 2048 kb (2 mb).',
+            'identity_selfie.required' => 'Foto Identitas wajib diunggah.',
+            'identity_selfie.image' => 'File yang diunggah harus berupa gambar.',
+            'identity_selfie.mimes' => 'Format file yang diizinkan adalah PNG, JPG, atau JPEG.',
+            'identity_selfie.max' => 'Ukuran file tidak boleh melebihi 2048 kb (2 mb).',
+            'identity_type.required' => 'Jenis identitas wajib dipilih.',
+            'identity_number.required' => 'Nomor identitas wajib diisi.',
+        ]);
+        
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+        
 
         if ($request->hasFile('identity_photo') && $request->hasFile('identity_selfie')) {
             $IDPhoto = $request->file('identity_photo');

@@ -2,6 +2,16 @@
 @section('content')
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
+        @if (session('message'))
+            <h6 class="alert alert-success">
+                {{ session('message') }}
+            </h6>
+        @elseif (session('error'))
+        <h6 class="alert alert-danger">
+            {{ session('error') }}
+            <a href="{{ route('verification-add') }}" class="btn-danger"><u>Verifikasi Akun Kamu Dahulu!</u></a>
+        </h6>
+        @endif
         <div class="container" data-aos="fade-up">
             <div class="section-header">
                 <h2>Detail Projek</h2>

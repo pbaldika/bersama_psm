@@ -7,14 +7,14 @@
 <!-- Sidebar -->
 <div class="sidebar">
   <!-- Sidebar user panel (optional) -->
-  <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+  {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
     <div class="image">
       <img src="{{asset('dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
     </div>
     <div class="info">
       <a href="#" class="d-block">Alexander Pierce</a>
     </div>
-  </div>
+  </div> --}}
 
   <!-- SidebarSearch Form -->
   <div class="form-inline">
@@ -35,7 +35,7 @@
                with font-awesome or any other icon font library -->
       <li class="nav-item">
         <a href="{{route('admin.user')}}" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt"></i>
+          <i class="fas fa-users"></i>
           <p>
             Users
           </p>
@@ -43,7 +43,7 @@
       </li>
       <li class="nav-item">
         <a href="{{route('admin.funding')}}" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt"></i>
+          <i class="fas fa-money-bill"></i>
           <p>
             Fundings
           </p>
@@ -51,19 +51,28 @@
       </li>
       <li class="nav-item">
         <a href="{{route('admin.project')}}" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt"></i>
+          <i class="fas fa-briefcase"></i>
           <p>
             Projects
           </p>
         </a>
       </li>
       <li class="nav-item">
-        <a href="{{route('admin.home')}}" class="nav-link">
-          <i class="nav-icon fas fa-tachometer-alt"></i>
+        <a href="{{route('landing')}}" class="nav-link">
+          <i class="fas fa-rocket"></i>
           <p>
-            Dashboard
+            Beranda Bersama
           </p>
         </a>
+      </li>
+      <li class="nav-item">
+        <a href="{{ route('logout') }}" class="nav-link">
+          <i class="fas fa-sign-out-alt"></i>
+          <p>
+            Logout
+          </p>
+        </a>
+      </li>
     </ul>
   </nav>
   <!-- /.sidebar-menu -->

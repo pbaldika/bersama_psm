@@ -13,12 +13,17 @@ class Funding extends Model
         'fund_required',
         'start_date',
         'end_date',
-        'customer_id',
+        'user_id',
         'customerName',
         'customerOrder',
         'description',
         'status',
         'company_registration_number',
+        'order_photo',
+        'additional_info',
+        'fundName',
+        'profit_margin_user',
+        'profit_margin_investor',
     ];
 
     public function customer()

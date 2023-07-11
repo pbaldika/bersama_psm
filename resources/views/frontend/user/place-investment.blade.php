@@ -10,7 +10,7 @@
         <div class="container">
 
             <div class="section-header">
-                <h2>Buat Pemesenan Investasi</h2>
+                <h2>Buat Pemesanan Investasi</h2>
             </div>
 
         </div>

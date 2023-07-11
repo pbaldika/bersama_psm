@@ -43,11 +43,11 @@
                                 </div>
                                 <div class="col mb-2">
                                     @if ($user->role == 'user')
-                                        <a href="{{ route('admin.user.verify', $user) }}"
-                                            class="btn btn-warning btn-block"><b>Verikasi</b></a>
+                                        <a href="{{ route('admin.user.show-verify', $user) }}"
+                                            class="btn btn-warning btn-block"><b>Verifikasi</b></a>
                                     @elseif ($user->role == 'company')
                                         <a href="{{ route('admin.user.show-verify-comp', $user) }}"
-                                            class="btn btn-warning btn-block"><b>Verikasi</b></a>
+                                            class="btn btn-warning btn-block"><b>Verifikasi</b></a>
                                     @endif
                                 </div>
                             </div>

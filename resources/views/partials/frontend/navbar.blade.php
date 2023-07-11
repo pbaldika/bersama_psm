@@ -8,12 +8,33 @@
               <li><a href="index-4.html">Home 4 - index-4.html</a></li>
             </ul>
           </li> -->
+    @guest
+        <li><a class="nav-link scrollto" href="{{ route('landing') }}#beranda">Beranda</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('investment-list') }}#projects">Projek</a></li>
+        <li><a class="nav-link scrollto" href="index.html#services">Tentang Kami</a></li>
+    @else
+    @if (Auth::user()->role == 'user')
+        <li><a class="nav-link scrollto" href="{{ route('landing') }}#beranda">Beranda</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('investment-list') }}#projects">Projek</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('investment-made') }}#portofolio">Portofolio</a></li>
+        <li><a class="nav-link scrollto" href="index.html#services">Tentang Kami</a></li>
+        {{-- <li><a href="blog.html">Blog</a></li> --}}
+    @elseif(Auth::user()->role == 'company')
+        <li><a class="nav-link scrollto" href="{{ route('landing') }}#beranda">Beranda</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('funding') }}#pengajuan">Pengajuan Dana</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('funding-list') }}#funding">Daftar Pengajuan Dana</a></li>
+        <li><a class="nav-link scrollto" href="index.html#services">Tentang Kami</a></li>
+        {{-- <li><a href="blog.html">Blog</a></li> --}}
+    @elseif(Auth::user()->role == 'admin')
+        <li><a class="nav-link scrollto" href="{{ route('landing') }}#beranda">Beranda</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('admin.home') }}#projects">Beranda Admin</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('investment-list') }}#projects">Projek</a></li>
+        <li><a class="nav-link scrollto" href="{{ route('investment-made') }}#portofolio">Portofolio</a></li>
+        <li><a class="nav-link scrollto" href="index.html#services">Tentang Kami</a></li>
+    @endif
+    @endguest
 
-    <li><a class="nav-link scrollto" href="{{ route('landing') }}#beranda">Beranda</a></li>
-    <li><a class="nav-link scrollto" href="{{ route('investment-list') }}#projects">Projek</a></li>
-    <li><a class="nav-link scrollto" href="{{ route('investment-made') }}#portofolio">Portofolio</a></li>
-    <li><a class="nav-link scrollto" href="index.html#services">Tentang Kami</a></li>
-    <li><a href="blog.html">Blog</a></li>
+
     {{-- <li class="dropdown megamenu"><a href="#"><span>Mega Menu</span> <i
                 class="bi bi-chevron-down dropdown-indicator"></i></a>
         <ul>

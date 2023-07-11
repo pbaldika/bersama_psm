@@ -24,7 +24,7 @@ return new class extends Migration
             $table->double('profit_margin_bersama');
             $table->double('profit_margin_investor');
             $table->double('profit')->nullable();
-            $table->foreignId('order_id')->nullable()->constrained('fundings');
+            $table->foreignId('funding_id')->nullable()->constrained('fundings');
         });
     }
 
