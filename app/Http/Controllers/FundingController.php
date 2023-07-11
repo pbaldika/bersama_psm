@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Funding;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -99,21 +100,17 @@ class FundingController extends Controller
     {
         $user = Auth::user(); // Get the currently authenticated user
         $userId = $user->id; // Get the user's ID
-
-        // Retrieve investments made by the user
-        $fundings = funding::where('user_id', $userId)->get();
-
+    
+        // Retrieve fundings made by the user
+        $fundings = Funding::where('user_id', $userId)->get();
+    
         // Retrieve project IDs associated with the fundings
         $projectIds = $fundings->pluck('project_id');
-
-        // // Retrieve projects associated with the fundings
-        // $projects = Project::whereIn('id', $projectIds)->get()->keyBy('id');
-
-        // $fundingCount = funding::count();
-        // $totalfunding = funding::sum('total');
-        // $activefundingCount = funding::where('status', 'active')->count();
-        // $totalProfit = funding::sum('profit');
-
-        return view('frontend.company.funding-made', ['fundings' => $fundings]);
+    
+        // Retrieve projects associated with the fundings
+        $projects = Project::whereIn('id', $projectIds)->get()->keyBy('id');
+    
+        return view('frontend.company.funding-made', ['fundings' => $fundings, 'projects' => $projects]);
     }
+    
 }
