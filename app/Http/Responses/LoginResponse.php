@@ -19,7 +19,7 @@ class LoginResponse implements LoginResponseContract
             return redirect()->intended("/admin");
         }
         if (auth()->user()->role == "company") {
-            return redirect()->intended("/company");
+            return redirect()->intended("/");
         }
     }
 }
