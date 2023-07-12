@@ -19,32 +19,27 @@
                         <h3 class="text-center">Anda Belum Melakukan Permintaan</h3>
                     @else
                         @foreach ($fundings as $key => $funding)
-                            @php
-                                $project = isset($projects[$funding->project_id]) ? $projects[$investment->project_id] : null;
-                            @endphp
+                            {{-- @php
+                                $project = isset($projects[$funding->project_id]) ? $projects[$funding->project_id] : null;
+                            @endphp --}}
                             <div class="accordion accordion-flush px-xl-5" id="faqlist">
                                 <div class="accordion-item" data-aos="fade-up" data-aos-delay="200">
                                     <h3 class="accordion-header">
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#faq-content-{{ $key }}">
-                                            {{-- <div class="column">
-                                            <div class="row"> --}}
                                             <div class="col-lg-6">
                                                 <i class="bi bi-handbag-fill"></i>
-                                                {{ $project ? $project->name : '' }}
+                                                {{ $funding->fundName}}
                                             </div>
                                             <div class="col-lg-6 text-end">
-                                  
+                                                <!-- Add your content here -->
                                             </div>
-                                            {{-- </div>
-                                        </div> --}}
                                         </button>
-
                                     </h3>
                                     <div id="faq-content-{{ $key }}" class="accordion-collapse collapse"
                                         data-bs-parent="#faqlist">
                                         <div class="accordion-body">
-                                            <h4 class="text-center">
+                                            {{-- <h4 class="text-center">
                                                 Informasi Projek
                                             </h4>
                                             <div class="tab-content">
@@ -96,10 +91,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> --}}
 
                                             <h4 class="text-center mt-4">
-                                                Informasi Investasi
+                                                Informasi Funding
                                             </h4>
                                             <div class="row tab-content">
                                                 <div class="col-lg-12 container bg-light mt-4 active">
@@ -108,16 +103,16 @@
                                                             <div class="d-flex flex-column mt-3 mb-3">
                                                                 <p class="mb-2">Total Investasi</p>
                                                                 <p class="fw-bold mb-2">Rp.
-                                                                    {{ number_format($investment->total, 0, '.', '.') }}
+                                                                    {{ number_format($funding->fund_required, 0, '.', '.') }}
                                                                 </p>
                                                             </div>
                                                             <div class="d-flex flex-column mt-3 mb-1">
                                                                 <p class="mb-2">Keuntungan</p>
-                                                                @if ($investment->profit == null)
+                                                                @if ($funding->profit == null)
                                                                     <p><b>Projek belum selesai.</b></p>
                                                                 @else
                                                                     <p class="fw-bold mb-2">Rp.
-                                                                        {{ number_format($investment->profit, 0, '.', '.') }}
+                                                                        {{ number_format($funding->profit, 0, '.', '.') }}
                                                                     </p>
                                                                 @endif
                                                             </div>
@@ -125,52 +120,52 @@
                                                         <div class="col-lg-6">
                                                             <div class="d-flex flex-column mt-3 mb-3">
                                                                 <p class="mb-2">Status</p>
-                                                                <p class="fw-bold mb-2">{{ $investment->status }}</p>
+                                                                <p class="fw-bold mb-2">{{ $funding->status }}</p>
                                                             </div>
                                                             <div class="d-flex flex-column mt-3 mb-3">
                                                                 <p class="mb-2">Diajukan Pada</p>
-                                                                <p class="fw-bold mb-2">
-                                                                    {{ $project->created_at->format('Y-m-d') }}</p>
+
+
+                                                                {{ $funding->created_at->format('Y-m-d') }}</p>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row mt-3">
+                                            {{-- <div class="row mt-3">
                                                 <div class="col-lg-6">
-                                                    @if (!isset($investment->payment_proof))
-                                                        <a href="{{ route('proof-add', $investment->id) }}">
+                                                    @if (!isset($funding->payment_proof))
+                                                        <a href="{{ route('proof-add', $funding->id) }}">
                                                             <button type="button" class="btn btn-primary">Upload
                                                                 Bukti</button>
                                                         </a>
                                                         <p><i class="bi bi-exclamation-circle-fill text-danger"></i>
                                                             Investasi
-                                                            anda belum ditambahkan karena belum terverifikasi</p>
-                                                    @elseif($investment->status == 'request')
-                                                        <p><b>Pembayaran anda sedang di verifikasi</b></p>
+                                                            Anda belum ditambahkan karena belum terverifikasi</p>
+                                                    @elseif($funding->status == 'request')
+                                                        <p><b>Pembayaran Anda sedang divalidasi</b></p>
                                                         <p><i class="bi bi-exclamation-circle-fill text-danger"></i>
                                                             Investasi
-                                                            anda belum ditambahkan karena belum terverifikasi</p>
-                                                    @elseif($investment->status == 'active' && $project->progress_status == 'aktif')
-                                                        <p><b>Pembayaran anda telah di verifikasi</b></p>
+                                                            Anda belum ditambahkan karena belum terverifikasi</p>
+                                                    @elseif($funding->status == 'active' && $project->progress_status == 'aktif')
+                                                        <p><b>Pembayaran Anda telah diverifikasi</b></p>
                                                         <p><i class="bi bi-exclamation-circle-fill text-primary"></i>
                                                             Investasi
-                                                            anda sedang berjalan</p>
+                                                            Anda sedang berjalan</p>
                                                     @else
                                                         <p><i class="bi bi-exclamation-circle-fill text-success"></i>
                                                             Investasi
-                                                            anda telah selesai</p>
+                                                            Anda telah selesai</p>
                                                     @endif
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a href="{{ route('invoice', $investment->id) }}" rel="noopener"
+                                                    <a href="{{ route('invoice', $funding->id) }}" rel="noopener"
                                                         target="_blank">
                                                         <button type="button" class="btn btn-primary">Cetak
                                                             Invoice</button>
                                                     </a>
                                                 </div>
-                                            </div>
-
+                                            </div> --}}
                                         </div><!-- .accordion-body -->
                                     </div><!-- .accordion-collapse -->
                                 </div><!-- .accordion-item -->
