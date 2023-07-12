@@ -94,7 +94,7 @@ class AdminFundingController extends Controller
             'profit_margin_bersama' => $funding->profit_margin_user,
             'profit_margin_investor' => $funding->profit_margin_user,
             'profit' => null,
-            'funding_id' => $funding->id,
+            // 'funding_id' => $funding->id,
         ]);
 
 
