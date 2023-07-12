@@ -98,19 +98,22 @@ class FundingController extends Controller
 
     public function fundingList()
     {
-        $user = Auth::user(); // Get the currently authenticated user
-        $userId = $user->id; // Get the user's ID
+        $user = Auth::user();
+        $userId = $user->id;
     
-        // Retrieve fundings made by the user
         $fundings = Funding::where('user_id', $userId)->get();
+        // $projectIds = $fundings->pluck('project_id');
+        // $projects = Project::whereIn('funding_id', $fundings->id)->get()->keyBy('id');
     
-        // Retrieve project IDs associated with the fundings
-        $projectIds = $fundings->pluck('project_id');
+        // // Match each funding with its corresponding project
+        // foreach ($fundings as $funding) {
+        //     if ($projects->has($funding->project_id)) {
+        //         $funding->project = $projects[$funding->project_id];
+        //     }
+        // }
     
-        // Retrieve projects associated with the fundings
-        $projects = Project::whereIn('id', $projectIds)->get()->keyBy('id');
-    
-        return view('frontend.company.funding-made', ['fundings' => $fundings, 'projects' => $projects]);
+        return view('frontend.company.funding-made', ['fundings' => $fundings]);
     }
+    
     
 }
