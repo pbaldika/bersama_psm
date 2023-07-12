@@ -90,11 +90,11 @@ class AdminFundingController extends Controller
             'required_capital' => $funding->fund_required,
             'progress_status' => 'aktif',
             'project_photo' => $funding->order_photo,
-            'company_id' => $funding->user_id,
+            // 'company_id' => $funding->user_id,
             'profit_margin_bersama' => $funding->profit_margin_user,
             'profit_margin_investor' => $funding->profit_margin_user,
             'profit' => null,
-            // 'funding_id' => $funding->id,
+            'funding_id' => $funding->id,
         ]);
 
 
